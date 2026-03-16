@@ -5,13 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Razvan Dimescu — Automation & AI systems for messy real-world processes</title>
 <meta name="description" content="I build production automation systems — RPA engines, AI document pipelines, and workflow orchestration — for regulated industries across Romania and the UK.">
+<meta property="og:title" content="Razvan Dimescu — Production automation for messy real-world processes">
+<meta property="og:description" content="RPA engines, AI document pipelines, and workflow orchestration for regulated industries across Romania and the UK.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dimescu.ro">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0b0d11; --surface: #14171f; --card: #181c26; --border: #252a36;
-    --text: #e2e5ee; --muted: #7d829a; --accent: #6c8cff;
+    --text: #e2e5ee; --muted: #8e93ab; --accent: #6c8cff;
     --green: #4ade80; --yellow: #fbbf24; --orange: #fb923c; --red: #f87171; --purple: #a78bfa;
     --font-heading: 'JetBrains Mono', monospace;
     --font-body: 'DM Sans', sans-serif;
@@ -23,32 +27,41 @@
   }
   a { color: var(--accent); text-decoration: none; }
   a:hover { text-decoration: underline; }
+  a:focus-visible, .cta-link:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px;
+  }
 
-  .container { max-width: 780px; margin: 0 auto; padding: 60px 24px; }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0,0,0,0); border: 0;
+  }
+
+  main.container { max-width: 780px; margin: 0 auto; padding: 60px 24px; }
 
   /* Hero */
-  .hero {
+  header.hero {
     margin-bottom: 72px; padding-bottom: 48px;
     position: relative;
   }
-  .hero::before {
+  header.hero::before {
     content: ''; position: absolute;
     top: -120px; left: -200px; width: 600px; height: 500px;
     background: radial-gradient(ellipse at center, rgba(108,140,255,0.06) 0%, transparent 70%);
     pointer-events: none; z-index: 0;
   }
-  .hero > * { position: relative; z-index: 1; }
-  .hero h1 {
+  header.hero > * { position: relative; z-index: 1; }
+  header.hero h1 {
     font-family: var(--font-heading); font-size: 34px; font-weight: 700;
     margin-bottom: 10px; letter-spacing: -0.5px;
     animation: fadeUp 0.6s ease both;
   }
-  .hero .tagline {
+  header.hero .tagline {
     font-family: var(--font-heading); color: var(--muted); font-size: 16px;
     margin-bottom: 24px; letter-spacing: -0.2px;
     animation: fadeUp 0.6s ease 0.1s both;
   }
-  .hero .bio {
+  header.hero .bio {
     font-size: 15px; color: var(--text); max-width: 600px; line-height: 1.7;
     animation: fadeUp 0.6s ease 0.2s both;
   }
@@ -64,12 +77,15 @@
   .links a:hover { color: var(--accent); text-decoration: none; }
 
   /* Section */
-  .section { margin-bottom: 56px; }
-  .section h2 {
-    font-family: var(--font-heading); font-size: 11px; font-weight: 700;
+  section.section { margin-bottom: 56px; }
+  section.section h2 {
+    font-family: var(--font-heading); font-size: 12px; font-weight: 700;
     text-transform: uppercase; letter-spacing: 2px; color: var(--muted);
     margin-bottom: 24px; padding-bottom: 12px;
     border-bottom: 1px solid var(--border);
+  }
+  .section-intro {
+    color: var(--muted); font-size: 14px; margin-top: -12px; margin-bottom: 20px;
   }
 
   /* Project cards */
@@ -82,12 +98,12 @@
   .project:hover { border-color: var(--accent); transform: translateY(-1px); }
   .project-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
   .project-name { font-family: var(--font-heading); font-weight: 700; font-size: 15px; }
-  .project-links { display: flex; gap: 12px; font-size: 13px; }
+  .project-meta { display: flex; gap: 10px; align-items: center; font-size: 13px; }
   .project-desc { color: var(--muted); font-size: 14px; margin-bottom: 10px; line-height: 1.65; }
   .tags { display: flex; gap: 6px; flex-wrap: wrap; }
   .tag {
     display: inline-block; padding: 2px 9px; border-radius: 4px;
-    font-family: var(--font-heading); font-size: 10px; font-weight: 500;
+    font-family: var(--font-heading); font-size: 11px; font-weight: 500;
     background: rgba(108,140,255,0.1); color: var(--accent);
     letter-spacing: 0.3px;
   }
@@ -154,9 +170,9 @@
   }
 
   @media (max-width: 600px) {
-    .container { padding: 32px 16px; }
-    .hero h1 { font-size: 26px; }
-    .hero::before { width: 400px; left: -100px; }
+    main.container { padding: 32px 16px; }
+    header.hero h1 { font-size: 26px; }
+    header.hero::before { width: 400px; left: -100px; }
     .project-head { flex-direction: column; align-items: flex-start; gap: 6px; }
   }
 
@@ -166,21 +182,20 @@
 </style>
 </head>
 <body>
-<div class="container">
+<main class="container">
 
-  <div class="hero">
+  <header class="hero">
     <h1>Razvan Dimescu</h1>
     <p class="tagline">Production automation for messy, real-world business processes.</p>
     <p class="bio">I turn manual operations into reliable software — inconsistent documents, unreliable workflows, regulated industries. From RPA engines and workflow orchestration to AI-powered document pipelines, across accounting, energy, and finance in Romania and the UK.</p>
-    <div class="links">
-      <a href="https://github.com/razvandimescu">GitHub</a>
-      <a href="https://linkedin.com/in/razvandimescu">LinkedIn</a>
-      <a href="mailto:razvan.dimescu@rinkt.com">Email</a>
-    </div>
-  </div>
+    <nav class="links" aria-label="Profile links">
+      <a href="https://github.com/razvandimescu" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://linkedin.com/in/razvandimescu" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </nav>
+  </header>
 
-  <div class="section">
-    <h2>Projects</h2>
+  <section class="section" aria-labelledby="projects-heading">
+    <h2 id="projects-heading">Projects</h2>
     <div class="projects">
 
       <div class="project">
@@ -188,7 +203,7 @@
           <span class="project-name">Rinkt</span>
           <span class="status status-active">Active</span>
         </div>
-        <p class="project-desc">Implementation-first automation that runs in production. Conversational workflow builder, orchestration API, and a cross-platform runner that executes across browsers, desktops, and Office apps — with durable execution that recovers mid-step, not from scratch.</p>
+        <p class="project-desc">Co-founder and CTO — responsible for all development and infrastructure. Rinkt automates manual business operations for accounting firms, distributors, and back-office teams. Implementation-first: conversational workflow builder, orchestration API, and a cross-platform runner executing across browsers, desktops, and Office apps — with durable execution that recovers mid-step, not from scratch.</p>
         <div class="tags">
           <span class="tag tag-go">Go</span>
           <span class="tag tag-python">FastAPI</span>
@@ -201,10 +216,12 @@
       <div class="project">
         <div class="project-head">
           <span class="project-name">Extras GPT</span>
-          <span class="status status-active">Active</span>
+          <div class="project-meta">
+            <a href="https://extras-gpt.ro" target="_blank" rel="noopener noreferrer">extras-gpt.ro</a>
+            <span class="status status-active">Active</span>
+          </div>
         </div>
         <p class="project-desc">Accountants spend hours matching bank transactions to accounting codes by hand. This tool parses statements from 9 Romanian banks, classifies transactions with GPT-4, and surfaces edge cases for human review — turning hours of manual work into minutes.</p>
-        <div class="project-links"><a href="https://extras-gpt.ro">extras-gpt.ro</a></div>
         <div class="tags">
           <span class="tag tag-python">Python</span>
           <span class="tag tag-react">React</span>
@@ -216,13 +233,13 @@
       <div class="project">
         <div class="project-head">
           <span class="project-name">Cauta Firma</span>
-          <span class="status status-active">Active</span>
+          <div class="project-meta">
+            <a href="https://cauta-firma.ro" target="_blank" rel="noopener noreferrer">cauta-firma.ro</a>
+            <a href="https://github.com/razvandimescu/cauta-firma" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <span class="status status-active">Active</span>
+          </div>
         </div>
         <p class="project-desc">Instant search across 4M+ Romanian companies with live ANAF financial data. Free, open source, runs entirely on Cloudflare's free tier.</p>
-        <div class="project-links">
-          <a href="https://cauta-firma.ro">cauta-firma.ro</a>
-          <a href="https://github.com/razvandimescu/cauta-firma">GitHub</a>
-        </div>
         <div class="tags">
           <span class="tag tag-ts">TypeScript</span>
           <span class="tag tag-ts">Cloudflare Workers</span>
@@ -233,12 +250,12 @@
       <div class="project">
         <div class="project-head">
           <span class="project-name">go-launcher</span>
-          <span class="status status-maintained">Maintained</span>
+          <div class="project-meta">
+            <a href="https://github.com/rinktltd/go-launcher" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <span class="status status-maintained">Maintained</span>
+          </div>
         </div>
         <p class="project-desc">Desktop apps that auto-update need to not brick themselves. Open-source Go library that manages crash-safe updates: external supervisor pattern, versioned directories, automatic rollback on failure.</p>
-        <div class="project-links">
-          <a href="https://github.com/rinktltd/go-launcher">GitHub</a>
-        </div>
         <div class="tags">
           <span class="tag tag-go">Go</span>
           <span class="tag tag-go">MIT</span>
@@ -248,12 +265,12 @@
       <div class="project">
         <div class="project-head">
           <span class="project-name">peekm</span>
-          <span class="status status-maintained">Maintained</span>
+          <div class="project-meta">
+            <a href="https://github.com/razvandimescu/peekm" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <span class="status status-maintained">Maintained</span>
+          </div>
         </div>
         <p class="project-desc">Markdown viewer with AI session tracking. Single Go binary, installable via npm or Homebrew.</p>
-        <div class="project-links">
-          <a href="https://github.com/razvandimescu/peekm">GitHub</a>
-        </div>
         <div class="tags">
           <span class="tag tag-go">Go</span>
           <span class="tag tag-go">npm</span>
@@ -273,27 +290,42 @@
       </div>
 
     </div>
-  </div>
+  </section>
 
-  <div class="section">
-    <h2>Selected Work</h2>
+  <section class="section" aria-labelledby="work-heading">
+    <h2 id="work-heading">Client Engagements</h2>
+    <p class="section-intro">Production systems delivered for clients in energy, finance, and e-commerce — from single-developer POCs to multi-year team engagements.</p>
     <div class="projects">
 
       <div class="project">
         <div class="project-head">
-          <span class="project-name">Email classification for energy distributor</span>
+          <span class="project-name">Energy aggregation and grid services</span>
         </div>
-        <p class="project-desc">Thousands of customer emails daily, 212 possible categories. Built an ML pipeline that auto-routes each email to the right department — SVM/TF-IDF with rule-based extraction, trained on 36K messages.</p>
+        <p class="project-desc">Started as a single-developer POC, grew to a team of 8 over 7 years. Built aggregation software for solar farms totalling 5GW, direct dispatch on negative energy prices with real-time notifications, and command &amp; control for gas turbines producing 800MW+. Deployed software and hardware for frequency containment reserves across sites in France and Spain. Owned CI/CD, service deployment, SFTP configuration, and Helm charts.</p>
         <div class="tags">
           <span class="tag tag-python">Python</span>
-          <span class="tag tag-ai">ML</span>
+          <span class="tag tag-go">Go</span>
+          <span class="tag tag-ts">SCADA</span>
+          <span class="tag tag-ts">Helm</span>
+          <span class="tag tag-ts">CI/CD</span>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="project-head">
+          <span class="project-name">Email classification for Romanian energy distributor</span>
+        </div>
+        <p class="project-desc">A Romanian energy distributor routes thousands of customer and partner emails manually across 212 internal categories. Built an ML pipeline using SVM and TF-IDF that classifies incoming emails and extracts structured rules — trained on 36K historical messages, now progressing toward production deployment.</p>
+        <div class="tags">
+          <span class="tag tag-python">Python</span>
+          <span class="tag tag-ai">NLP</span>
           <span class="tag tag-python">scikit-learn</span>
         </div>
       </div>
 
       <div class="project">
         <div class="project-head">
-          <span class="project-name">Returns processing pipeline</span>
+          <span class="project-name">Returns processing for UK distributor</span>
         </div>
         <p class="project-desc">Product returns arrive as unstructured emails — PDFs, photos, inconsistent formats. Built a pipeline that extracts data via OCR, classifies issues with GPT-4o, matches products using vector similarity, and routes by confidence: auto-approve, review, or escalate.</p>
         <div class="tags">
@@ -306,9 +338,9 @@
 
       <div class="project">
         <div class="project-head">
-          <span class="project-name">Vehicle finance quote aggregation</span>
+          <span class="project-name">Vehicle finance quote aggregation (UK)</span>
         </div>
-        <p class="project-desc">Finance brokers manually check rates across 10+ funders. Built parallel browser and API workers that query all funders and return unified quotes — replacing a 30-minute manual process.</p>
+        <p class="project-desc">UK finance brokers manually check rates across 10+ funders. Built parallel browser and API workers that query all funders and return unified quotes — replacing a 30-minute manual process.</p>
         <div class="tags">
           <span class="tag tag-ts">Playwright</span>
           <span class="tag tag-go">Go</span>
@@ -317,19 +349,20 @@
       </div>
 
     </div>
-  </div>
+  </section>
 
-  <div class="section">
+  <section class="section" aria-labelledby="contact-heading">
+    <h2 id="contact-heading" class="sr-only">Contact</h2>
     <div class="cta">
-      <p>Building something that needs automation? Let's talk.</p>
-      <a class="cta-link" href="mailto:razvan.dimescu@rinkt.com">Get in touch</a>
+      <p>Messy processes, unreliable workflows, documents that don't parse themselves — if that sounds familiar, let's talk.</p>
+      <a class="cta-link" href="https://linkedin.com/in/razvandimescu" target="_blank" rel="noopener noreferrer">Get in touch</a>
     </div>
-  </div>
+  </section>
 
   <footer>
     <p>Craiova, Romania</p>
   </footer>
 
-</div>
+</main>
 </body>
 </html>
