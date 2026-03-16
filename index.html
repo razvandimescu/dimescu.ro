@@ -3,49 +3,93 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Razvan Dimescu — Builder of automation and AI tools</title>
-<meta name="description" content="I build automation, RPA, and AI tools. Open source projects include Rinkt, Cauta Firma, go-launcher, peekm, and dns_fun.">
+<title>Razvan Dimescu — Automation & AI systems for messy real-world processes</title>
+<meta name="description" content="I build production automation systems — RPA engines, AI document pipelines, and workflow orchestration — for regulated industries across Romania and the UK.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0b0d11; --surface: #14171f; --card: #181c26; --border: #252a36;
     --text: #e2e5ee; --muted: #7d829a; --accent: #6c8cff;
     --green: #4ade80; --yellow: #fbbf24; --orange: #fb923c; --red: #f87171; --purple: #a78bfa;
+    --font-heading: 'JetBrains Mono', monospace;
+    --font-body: 'DM Sans', sans-serif;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
+  body {
+    font-family: var(--font-body); background: var(--bg); color: var(--text);
+    min-height: 100vh; line-height: 1.6;
+  }
   a { color: var(--accent); text-decoration: none; }
   a:hover { text-decoration: underline; }
 
   .container { max-width: 780px; margin: 0 auto; padding: 60px 24px; }
 
   /* Hero */
-  .hero { margin-bottom: 56px; }
-  .hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
-  .hero .tagline { color: var(--muted); font-size: 18px; margin-bottom: 20px; }
-  .hero .bio { font-size: 15px; color: var(--text); max-width: 600px; }
-  .links { display: flex; gap: 20px; margin-top: 16px; font-size: 14px; }
-  .links a { color: var(--muted); transition: color 0.15s; }
+  .hero {
+    margin-bottom: 72px; padding-bottom: 48px;
+    position: relative;
+  }
+  .hero::before {
+    content: ''; position: absolute;
+    top: -120px; left: -200px; width: 600px; height: 500px;
+    background: radial-gradient(ellipse at center, rgba(108,140,255,0.06) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+  .hero > * { position: relative; z-index: 1; }
+  .hero h1 {
+    font-family: var(--font-heading); font-size: 34px; font-weight: 700;
+    margin-bottom: 10px; letter-spacing: -0.5px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero .tagline {
+    font-family: var(--font-heading); color: var(--muted); font-size: 16px;
+    margin-bottom: 24px; letter-spacing: -0.2px;
+    animation: fadeUp 0.6s ease 0.1s both;
+  }
+  .hero .bio {
+    font-size: 15px; color: var(--text); max-width: 600px; line-height: 1.7;
+    animation: fadeUp 0.6s ease 0.2s both;
+  }
+  .links {
+    display: flex; gap: 24px; margin-top: 20px; font-size: 14px;
+    animation: fadeUp 0.6s ease 0.3s both;
+  }
+  .links a {
+    color: var(--muted); transition: color 0.15s;
+    font-family: var(--font-heading); font-size: 13px; font-weight: 500;
+    letter-spacing: 0.3px;
+  }
   .links a:hover { color: var(--accent); text-decoration: none; }
 
   /* Section */
-  .section { margin-bottom: 48px; }
-  .section h2 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 20px; }
+  .section { margin-bottom: 56px; }
+  .section h2 {
+    font-family: var(--font-heading); font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 2px; color: var(--muted);
+    margin-bottom: 24px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
 
   /* Project cards */
   .projects { display: grid; gap: 14px; }
   .project {
     background: var(--card); border: 1px solid var(--border); border-radius: 10px;
-    padding: 20px 24px; transition: border-color 0.15s;
+    padding: 20px 24px; transition: border-color 0.2s, transform 0.2s;
+    animation: fadeUp 0.5s ease both;
   }
-  .project:hover { border-color: var(--accent); }
+  .project:hover { border-color: var(--accent); transform: translateY(-1px); }
   .project-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-  .project-name { font-weight: 700; font-size: 16px; }
+  .project-name { font-family: var(--font-heading); font-weight: 700; font-size: 15px; }
   .project-links { display: flex; gap: 12px; font-size: 13px; }
-  .project-desc { color: var(--muted); font-size: 14px; margin-bottom: 10px; }
+  .project-desc { color: var(--muted); font-size: 14px; margin-bottom: 10px; line-height: 1.65; }
   .tags { display: flex; gap: 6px; flex-wrap: wrap; }
   .tag {
     display: inline-block; padding: 2px 9px; border-radius: 4px;
-    font-size: 11px; font-weight: 600; background: rgba(108,140,255,0.1); color: var(--accent);
+    font-family: var(--font-heading); font-size: 10px; font-weight: 500;
+    background: rgba(108,140,255,0.1); color: var(--accent);
+    letter-spacing: 0.3px;
   }
   .tag-rust { background: rgba(251,146,60,0.12); color: var(--orange); }
   .tag-go { background: rgba(74,222,128,0.12); color: var(--green); }
@@ -54,27 +98,70 @@
   .tag-react { background: rgba(108,140,255,0.1); color: var(--accent); }
   .tag-ai { background: rgba(167,139,250,0.12); color: var(--purple); }
 
-  .status { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+  .status {
+    font-family: var(--font-heading); font-size: 10px; font-weight: 500;
+    padding: 2px 8px; border-radius: 4px; letter-spacing: 0.3px;
+  }
   .status-active { background: rgba(74,222,128,0.12); color: var(--green); }
   .status-maintained { background: rgba(251,191,36,0.12); color: var(--yellow); }
-  .status-wip { background: rgba(108,140,255,0.1); color: var(--accent); }
 
-  /* Writing */
-  .posts { display: grid; gap: 2px; }
-  .post { padding: 14px 0; border-bottom: 1px solid var(--border); }
-  .post:last-child { border-bottom: none; }
-  .post-title { font-weight: 600; font-size: 15px; }
-  .post-meta { color: var(--muted); font-size: 13px; margin-top: 2px; }
+  /* Staggered card animations */
+  .projects .project:nth-child(1) { animation-delay: 0.15s; }
+  .projects .project:nth-child(2) { animation-delay: 0.22s; }
+  .projects .project:nth-child(3) { animation-delay: 0.29s; }
+  .projects .project:nth-child(4) { animation-delay: 0.36s; }
+  .projects .project:nth-child(5) { animation-delay: 0.43s; }
+  .projects .project:nth-child(6) { animation-delay: 0.50s; }
 
-  .empty { color: var(--muted); font-size: 14px; font-style: italic; }
+  /* CTA */
+  .cta {
+    background: var(--card); border: 1px solid var(--accent); border-radius: 10px;
+    padding: 40px 32px; text-align: center;
+    position: relative; overflow: hidden;
+    animation: fadeUp 0.5s ease 0.4s both;
+  }
+  .cta::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 100%, rgba(108,140,255,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .cta p {
+    font-family: var(--font-heading); color: var(--muted); font-size: 14px;
+    margin-bottom: 20px; position: relative;
+  }
+  .cta .cta-link {
+    display: inline-block; padding: 12px 32px; background: var(--accent); color: var(--bg);
+    font-family: var(--font-heading); font-weight: 700; font-size: 14px;
+    border-radius: 6px; transition: box-shadow 0.25s, transform 0.15s;
+    position: relative; letter-spacing: 0.3px;
+  }
+  .cta .cta-link:hover {
+    box-shadow: 0 0 24px rgba(108,140,255,0.3); transform: translateY(-1px);
+    text-decoration: none;
+  }
 
   /* Footer */
-  footer { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 16px; color: var(--muted); font-size: 13px; }
+  footer {
+    border-top: 1px solid var(--border); padding-top: 24px; margin-top: 16px;
+    color: var(--muted); font-size: 13px;
+    font-family: var(--font-heading); letter-spacing: 0.2px;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
   @media (max-width: 600px) {
     .container { padding: 32px 16px; }
     .hero h1 { font-size: 26px; }
+    .hero::before { width: 400px; left: -100px; }
     .project-head { flex-direction: column; align-items: flex-start; gap: 6px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; }
   }
 </style>
 </head>
@@ -83,8 +170,8 @@
 
   <div class="hero">
     <h1>Razvan Dimescu</h1>
-    <p class="tagline">I build automation and AI tools.</p>
-    <p class="bio">Software engineer focused on RPA, workflow orchestration, and applied AI. Building tools that help businesses automate the tedious stuff — from browser and desktop automation to intelligent document processing.</p>
+    <p class="tagline">Production automation for messy, real-world business processes.</p>
+    <p class="bio">I turn manual operations into reliable software — inconsistent documents, unreliable workflows, regulated industries. From RPA engines and workflow orchestration to AI-powered document pipelines, across accounting, energy, and finance in Romania and the UK.</p>
     <div class="links">
       <a href="https://github.com/razvandimescu">GitHub</a>
       <a href="https://linkedin.com/in/razvandimescu">LinkedIn</a>
@@ -98,15 +185,16 @@
 
       <div class="project">
         <div class="project-head">
-          <span class="project-name">Rinkt Bot Runner</span>
+          <span class="project-name">Rinkt</span>
           <span class="status status-active">Active</span>
         </div>
-        <p class="project-desc">Cross-platform RPA engine with 100+ activity types. Browser, desktop, and Office automation with Temporal-based durable execution.</p>
+        <p class="project-desc">Implementation-first automation that runs in production. Conversational workflow builder, orchestration API, and a cross-platform runner that executes across browsers, desktops, and Office apps — with durable execution that recovers mid-step, not from scratch.</p>
         <div class="tags">
           <span class="tag tag-go">Go</span>
+          <span class="tag tag-python">FastAPI</span>
           <span class="tag tag-ts">Playwright</span>
-          <span class="tag tag-go">Wails</span>
           <span class="tag tag-ts">Temporal</span>
+          <span class="tag tag-ts">NATS</span>
         </div>
       </div>
 
@@ -115,7 +203,7 @@
           <span class="project-name">Extras GPT</span>
           <span class="status status-active">Active</span>
         </div>
-        <p class="project-desc">Romanian bank statement parser with AI-powered accounting code classification. Supports 9 banks, GPT-4 categorization, human-in-the-loop review.</p>
+        <p class="project-desc">Accountants spend hours matching bank transactions to accounting codes by hand. This tool parses statements from 9 Romanian banks, classifies transactions with GPT-4, and surfaces edge cases for human review — turning hours of manual work into minutes.</p>
         <div class="project-links"><a href="https://extras-gpt.ro">extras-gpt.ro</a></div>
         <div class="tags">
           <span class="tag tag-python">Python</span>
@@ -130,7 +218,7 @@
           <span class="project-name">Cauta Firma</span>
           <span class="status status-active">Active</span>
         </div>
-        <p class="project-desc">Search 4M+ Romanian companies with live ANAF financial data. Free, open source, runs entirely on Cloudflare's free tier.</p>
+        <p class="project-desc">Instant search across 4M+ Romanian companies with live ANAF financial data. Free, open source, runs entirely on Cloudflare's free tier.</p>
         <div class="project-links">
           <a href="https://cauta-firma.ro">cauta-firma.ro</a>
           <a href="https://github.com/razvandimescu/cauta-firma">GitHub</a>
@@ -147,7 +235,7 @@
           <span class="project-name">go-launcher</span>
           <span class="status status-maintained">Maintained</span>
         </div>
-        <p class="project-desc">Open-source Go library for crash-safe auto-updates using an external supervisor pattern. Versioned directories, rollback on crash, file-based IPC.</p>
+        <p class="project-desc">Desktop apps that auto-update need to not brick themselves. Open-source Go library that manages crash-safe updates: external supervisor pattern, versioned directories, automatic rollback on failure.</p>
         <div class="project-links">
           <a href="https://github.com/rinktltd/go-launcher">GitHub</a>
         </div>
@@ -176,9 +264,8 @@
       <div class="project">
         <div class="project-head">
           <span class="project-name">dns_fun</span>
-          <span class="status status-wip">WIP</span>
         </div>
-        <p class="project-desc">DNS forwarding and caching proxy built from scratch in Rust. Wire protocol parsing, local zones from TOML, TTL-aware cache, async with tokio.</p>
+        <p class="project-desc">DNS forwarding and caching proxy from scratch — wire protocol parsing, local zones, TTL-aware cache. A deep dive into networking fundamentals with async Rust.</p>
         <div class="tags">
           <span class="tag tag-rust">Rust</span>
           <span class="tag tag-rust">tokio</span>
@@ -189,14 +276,58 @@
   </div>
 
   <div class="section">
-    <h2>Writing</h2>
-    <div class="posts">
-      <p class="empty">Coming soon — build-in-public posts and technical deep dives.</p>
+    <h2>Selected Work</h2>
+    <div class="projects">
+
+      <div class="project">
+        <div class="project-head">
+          <span class="project-name">Email classification for energy distributor</span>
+        </div>
+        <p class="project-desc">Thousands of customer emails daily, 212 possible categories. Built an ML pipeline that auto-routes each email to the right department — SVM/TF-IDF with rule-based extraction, trained on 36K messages.</p>
+        <div class="tags">
+          <span class="tag tag-python">Python</span>
+          <span class="tag tag-ai">ML</span>
+          <span class="tag tag-python">scikit-learn</span>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="project-head">
+          <span class="project-name">Returns processing pipeline</span>
+        </div>
+        <p class="project-desc">Product returns arrive as unstructured emails — PDFs, photos, inconsistent formats. Built a pipeline that extracts data via OCR, classifies issues with GPT-4o, matches products using vector similarity, and routes by confidence: auto-approve, review, or escalate.</p>
+        <div class="tags">
+          <span class="tag tag-python">Python</span>
+          <span class="tag tag-ai">GPT-4o</span>
+          <span class="tag tag-ai">pgvector</span>
+          <span class="tag tag-python">FastAPI</span>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="project-head">
+          <span class="project-name">Vehicle finance quote aggregation</span>
+        </div>
+        <p class="project-desc">Finance brokers manually check rates across 10+ funders. Built parallel browser and API workers that query all funders and return unified quotes — replacing a 30-minute manual process.</p>
+        <div class="tags">
+          <span class="tag tag-ts">Playwright</span>
+          <span class="tag tag-go">Go</span>
+          <span class="tag tag-ts">NATS</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="cta">
+      <p>Building something that needs automation? Let's talk.</p>
+      <a class="cta-link" href="mailto:razvan.dimescu@rinkt.com">Get in touch</a>
     </div>
   </div>
 
   <footer>
-    <p>Razvan Dimescu &middot; Bucharest, Romania</p>
+    <p>Craiova, Romania</p>
   </footer>
 
 </div>
