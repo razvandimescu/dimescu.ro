@@ -65,6 +65,13 @@
     font-size: 15px; color: var(--text); max-width: 600px; line-height: 1.7;
     animation: fadeUp 0.6s ease 0.2s both;
   }
+  header.hero .now {
+    font-size: 14px; color: var(--muted); margin-top: 16px;
+    font-family: var(--font-heading); font-weight: 500; letter-spacing: -0.2px;
+    animation: fadeUp 0.6s ease 0.25s both;
+  }
+  header.hero .now a { color: var(--accent); }
+
   .links {
     display: flex; gap: 24px; margin-top: 20px; font-size: 14px;
     animation: fadeUp 0.6s ease 0.3s both;
@@ -128,6 +135,7 @@
   .projects .project:nth-child(4) { animation-delay: 0.36s; }
   .projects .project:nth-child(5) { animation-delay: 0.43s; }
   .projects .project:nth-child(6) { animation-delay: 0.50s; }
+  .projects .project:nth-child(7) { animation-delay: 0.57s; }
 
   /* CTA */
   .cta {
@@ -188,7 +196,9 @@
     <h1>Razvan Dimescu</h1>
     <p class="tagline">Production automation for messy, real-world business processes.</p>
     <p class="bio">I turn manual operations into reliable software — inconsistent documents, unreliable workflows, regulated industries. From RPA engines and workflow orchestration to AI-powered document pipelines, across accounting, energy, and finance in Romania and the UK.</p>
+    <p class="now">Currently building <a href="https://numa.dev">Numa</a> — a DNS resolver from scratch in Rust. <a href="https://numa.dev/blog/">Writing about it</a>.</p>
     <nav class="links" aria-label="Profile links">
+      <a href="https://numa.dev/blog/">Blog</a>
       <a href="https://github.com/razvandimescu" target="_blank" rel="noopener noreferrer">GitHub</a>
       <a href="https://linkedin.com/in/razvandimescu" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     </nav>
@@ -197,6 +207,24 @@
   <section class="section" aria-labelledby="projects-heading">
     <h2 id="projects-heading">Projects</h2>
     <div class="projects">
+
+      <div class="project">
+        <div class="project-head">
+          <span class="project-name">Numa</span>
+          <div class="project-meta">
+            <a href="https://numa.dev" target="_blank" rel="noopener noreferrer">numa.dev</a>
+            <a href="https://github.com/razvandimescu/numa" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <span class="status status-active">Active</span>
+          </div>
+        </div>
+        <p class="project-desc">Portable DNS resolver I run as my daily system DNS. Ad blocking (385K+ domains), DNS-over-HTTPS, .numa local domains with auto TLS reverse proxy, LAN service discovery, and developer overrides with auto-revert. Built from scratch in Rust — zero DNS libraries, wire protocol parsed by hand.</p>
+        <div class="tags">
+          <span class="tag tag-rust">Rust</span>
+          <span class="tag tag-rust">tokio</span>
+          <span class="tag tag-rust">axum</span>
+          <span class="tag tag-rust">rustls</span>
+        </div>
+      </div>
 
       <div class="project">
         <div class="project-head">
@@ -278,24 +306,6 @@
           <span class="tag tag-go">Go</span>
           <span class="tag tag-go">npm</span>
           <span class="tag tag-go">Homebrew</span>
-        </div>
-      </div>
-
-      <div class="project">
-        <div class="project-head">
-          <span class="project-name">Numa</span>
-          <div class="project-meta">
-            <a href="https://numa.dev" target="_blank" rel="noopener noreferrer">numa.dev</a>
-            <a href="https://github.com/razvandimescu/numa" target="_blank" rel="noopener noreferrer">GitHub</a>
-            <span class="status status-active">Active</span>
-          </div>
-        </div>
-        <p class="project-desc">Portable DNS resolver I run as my daily system DNS. Ad blocking (385K+ domains), DNS-over-HTTPS, .numa local domains with auto TLS reverse proxy, LAN service discovery, and developer overrides with auto-revert. Built from scratch in Rust — zero DNS libraries, wire protocol parsed by hand.</p>
-        <div class="tags">
-          <span class="tag tag-rust">Rust</span>
-          <span class="tag tag-rust">tokio</span>
-          <span class="tag tag-rust">axum</span>
-          <span class="tag tag-rust">rustls</span>
         </div>
       </div>
 
