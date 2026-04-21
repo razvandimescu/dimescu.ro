@@ -5,427 +5,1471 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Razvan Dimescu — Automation & AI systems for messy real-world processes</title>
 <meta name="description" content="I build production automation systems — RPA engines, AI document pipelines, and workflow orchestration — for regulated industries across Romania and the UK.">
-<meta property="og:title" content="Razvan Dimescu — Production automation for messy real-world processes">
-<meta property="og:description" content="RPA engines, AI document pipelines, and workflow orchestration for regulated industries across Romania and the UK.">
+<link rel="canonical" href="https://dimescu.ro/">
+<meta name="color-scheme" content="dark">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://dimescu.ro">
+<meta property="og:url" content="https://dimescu.ro/">
+<meta property="og:title" content="Razvan Dimescu — Automation & AI systems for messy real-world processes">
+<meta property="og:description" content="Co-founder & CTO of Rinkt. RPA engines, AI document pipelines, and workflow orchestration for regulated industries across Romania and the UK.">
+<meta property="og:image" content="https://dimescu.ro/avatar.jpg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Razvan Dimescu — Automation & AI systems">
+<meta name="twitter:description" content="RPA engines, AI document pipelines, and workflow orchestration for regulated industries across Romania and the UK.">
+<meta name="twitter:image" content="https://dimescu.ro/avatar.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0b0d11; --surface: #14171f; --card: #181c26; --border: #252a36;
-    --text: #e2e5ee; --muted: #8e93ab; --accent: #6c8cff;
-    --green: #4ade80; --yellow: #fbbf24; --orange: #fb923c; --red: #f87171; --purple: #a78bfa;
-    --font-heading: 'JetBrains Mono', monospace;
-    --font-body: 'DM Sans', sans-serif;
+    --paper: #0c0b0f;
+    --paper-warm: #141218;
+    --ink: #f2ecd9;
+    --ink-soft: #c4bda9;
+    --ink-muted: #7f7a6b;
+    --rule: #2b2823;
+    --rule-soft: #1c1a17;
+    --amber: #ffa828;
+    --signal: #7ee787;
+    --crimson: #ea5a42;
+    --font-serif: 'Fraunces', 'Times New Roman', serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
-    font-family: var(--font-body); background: var(--bg); color: var(--text);
-    min-height: 100vh; line-height: 1.6;
+    font-family: var(--font-serif);
+    font-variation-settings: "opsz" 14, "SOFT" 50;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.55;
+    min-height: 100vh;
     position: relative;
+    overflow-x: hidden;
   }
 
-  /* Violet fractal background */
+  /* Paper grain overlay */
   body::before {
     content: '';
+    position: fixed; inset: 0;
+    z-index: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 0.92  0 0 0 0 0.75  0 0 0 0.08 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+  }
+  /* Ambient amber wash behind hero */
+  body::after {
+    content: '';
     position: fixed;
-    inset: 0;
-    z-index: 0;
-    background: transparent;
-    filter: url(#violet-fractal);
-    opacity: 0.35;
-    pointer-events: none;
+    top: -300px; right: -200px;
+    width: 900px; height: 700px;
+    z-index: 0; pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(255,168,40,0.07) 0%, transparent 65%);
   }
 
-  body > main { position: relative; z-index: 1; }
-  a { color: var(--accent); text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  a:focus-visible, .cta-link:focus-visible {
-    outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px;
+  main, header.masthead { position: relative; z-index: 1; }
+
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--amber); color: var(--paper); }
+  :focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: 3px;
+    border-radius: 1px;
   }
 
-  .sr-only {
-    position: absolute; width: 1px; height: 1px;
-    padding: 0; margin: -1px; overflow: hidden;
-    clip: rect(0,0,0,0); border: 0;
+  /* ── MASTHEAD ───────────────────────────────────────── */
+  header.masthead {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 32px;
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-muted);
+    animation: slideDown 0.7s ease both;
+  }
+  .mast-left, .mast-right { display: flex; gap: 16px; align-items: center; }
+  .mast-mark {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px;
+    border: 1px solid var(--ink); color: var(--ink);
+    font-family: var(--font-serif); font-style: italic;
+    font-weight: 500; font-size: 13px;
+    font-variation-settings: "opsz" 14;
+    letter-spacing: -0.04em;
+  }
+  .mast-title { color: var(--ink); }
+  .mast-center { color: var(--ink-muted); }
+
+  /* ── LAYOUT ─────────────────────────────────────────── */
+  main {
+    max-width: 1180px; margin: 0 auto;
+    padding: 0 32px;
   }
 
-  main.container { max-width: 780px; margin: 0 auto; padding: 60px 24px; }
-
-  /* Hero */
-  header.hero {
-    margin-bottom: 72px; padding-bottom: 48px;
+  /* ── HERO ───────────────────────────────────────────── */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 80px;
+    padding: 80px 0 64px;
+    border-bottom: 1px solid var(--rule);
     position: relative;
   }
-  header.hero::before {
-    content: ''; position: absolute;
-    top: -120px; left: -200px; width: 600px; height: 500px;
-    background: radial-gradient(ellipse at center, rgba(108,140,255,0.06) 0%, transparent 70%);
-    pointer-events: none; z-index: 0;
-  }
-  header.hero > * { position: relative; z-index: 1; }
-  header.hero h1 {
-    font-family: var(--font-heading); font-size: 34px; font-weight: 700;
-    margin-bottom: 10px; letter-spacing: -0.5px;
-    animation: fadeUp 0.6s ease both;
-  }
-  header.hero .tagline {
-    font-family: var(--font-heading); color: var(--muted); font-size: 16px;
-    margin-bottom: 24px; letter-spacing: -0.2px;
-    animation: fadeUp 0.6s ease 0.1s both;
-  }
-  header.hero .bio {
-    font-size: 15px; color: var(--text); max-width: 600px; line-height: 1.7;
-    animation: fadeUp 0.6s ease 0.2s both;
-  }
-  header.hero .now {
-    font-size: 14px; color: var(--muted); margin-top: 16px;
-    font-family: var(--font-heading); font-weight: 500; letter-spacing: -0.2px;
-    animation: fadeUp 0.6s ease 0.25s both;
-  }
-  header.hero .now a { color: var(--accent); }
+  .hero-main { min-width: 0; }
 
-  .links {
-    display: flex; gap: 24px; margin-top: 20px; font-size: 14px;
-    animation: fadeUp 0.6s ease 0.3s both;
+  .hero-kicker {
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 32px;
+    animation: fadeUp 0.7s ease 0.1s both;
   }
-  .links a {
-    color: var(--muted); transition: color 0.15s;
-    font-family: var(--font-heading); font-size: 13px; font-weight: 500;
-    letter-spacing: 0.3px;
-  }
-  .links a:hover { color: var(--accent); text-decoration: none; }
-
-  /* Section */
-  section.section { margin-bottom: 56px; }
-  section.section h2 {
-    font-family: var(--font-heading); font-size: 12px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 2px; color: var(--muted);
-    margin-bottom: 24px; padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-  }
-  .section-intro {
-    color: var(--muted); font-size: 14px; margin-top: -12px; margin-bottom: 20px;
+  .hero-kicker::before {
+    content: '— '; color: var(--ink-muted); margin-right: 4px;
   }
 
-  /* Project cards */
-  .projects { display: grid; gap: 14px; }
-  .project {
-    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
-    padding: 20px 24px; transition: border-color 0.2s, transform 0.2s;
-    animation: fadeUp 0.5s ease both;
+  .hero-name {
+    font-family: var(--font-serif);
+    font-size: clamp(64px, 11vw, 156px);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    font-weight: 400;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s ease 0.2s both;
   }
-  .project:hover { border-color: var(--accent); transform: translateY(-1px); }
-  .project-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-  .project-name { font-family: var(--font-heading); font-weight: 700; font-size: 15px; }
-  .project-meta { display: flex; gap: 10px; align-items: center; font-size: 13px; }
-  .project-desc { color: var(--muted); font-size: 14px; margin-bottom: 10px; line-height: 1.65; }
-  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
-  .tag {
-    display: inline-block; padding: 2px 9px; border-radius: 4px;
-    font-family: var(--font-heading); font-size: 11px; font-weight: 500;
-    background: rgba(108,140,255,0.1); color: var(--accent);
-    letter-spacing: 0.3px;
+  .hero-name .given { display: block; font-weight: 300; }
+  .hero-name .family {
+    display: block;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.05em;
   }
-  .tag-rust { background: rgba(251,146,60,0.12); color: var(--orange); }
-  .tag-go { background: rgba(74,222,128,0.12); color: var(--green); }
-  .tag-python { background: rgba(251,191,36,0.12); color: var(--yellow); }
-  .tag-ts { background: rgba(108,140,255,0.1); color: var(--accent); }
-  .tag-react { background: rgba(108,140,255,0.1); color: var(--accent); }
-  .tag-ai { background: rgba(167,139,250,0.12); color: var(--purple); }
+  .hero-name .family::before {
+    content: '';
+    display: inline-block;
+    width: 0.6em; height: 2px;
+    background: var(--amber);
+    vertical-align: 0.22em;
+    margin-right: 0.2em;
+    animation: ruleGrow 0.9s ease 0.6s both;
+    transform-origin: left;
+  }
 
-  .status {
-    font-family: var(--font-heading); font-size: 10px; font-weight: 500;
-    padding: 2px 8px; border-radius: 4px; letter-spacing: 0.3px;
+  .standfirst {
+    font-size: clamp(20px, 2.2vw, 26px);
+    line-height: 1.4;
+    max-width: 640px;
+    color: var(--ink);
+    font-weight: 300;
+    font-variation-settings: "opsz" 48, "SOFT" 30;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s ease 0.35s both;
   }
-  .status-active { background: rgba(74,222,128,0.12); color: var(--green); }
-  .status-maintained { background: rgba(251,191,36,0.12); color: var(--yellow); }
-
-  /* Staggered card animations */
-  .projects .project:nth-child(1) { animation-delay: 0.15s; }
-  .projects .project:nth-child(2) { animation-delay: 0.22s; }
-  .projects .project:nth-child(3) { animation-delay: 0.29s; }
-  .projects .project:nth-child(4) { animation-delay: 0.36s; }
-  .projects .project:nth-child(5) { animation-delay: 0.43s; }
-  .projects .project:nth-child(6) { animation-delay: 0.50s; }
-  .projects .project:nth-child(7) { animation-delay: 0.57s; }
-  .projects .project:nth-child(8) { animation-delay: 0.64s; }
-
-  /* CTA */
-  .cta {
-    background: var(--card); border: 1px solid var(--accent); border-radius: 10px;
-    padding: 40px 32px; text-align: center;
-    position: relative; overflow: hidden;
-    animation: fadeUp 0.5s ease 0.4s both;
+  .standfirst em {
+    font-style: italic; color: var(--amber);
+    font-weight: 400;
   }
-  .cta::before {
-    content: ''; position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 50% 100%, rgba(108,140,255,0.05) 0%, transparent 60%);
+  .dropcap {
+    float: left;
+    font-size: 4.4em; line-height: 0.82;
+    font-weight: 500; font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 50;
+    padding-right: 0.08em;
+    margin-top: 0.04em;
+    color: var(--ink);
+  }
+
+  .currently {
+    font-family: var(--font-mono);
+    font-size: 13px; font-weight: 500;
+    color: var(--ink-soft);
+    padding: 14px 0 14px 16px;
+    border-left: 2px solid var(--amber);
+    max-width: 560px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.8s ease 0.5s both;
+  }
+  .currently-label {
+    color: var(--amber); letter-spacing: 0.08em;
+    text-transform: uppercase; font-size: 10px;
+    display: block; margin-bottom: 4px;
+  }
+  .currently a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--ink-muted);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .currently a:hover { color: var(--amber); border-color: var(--amber); }
+  .cursor {
+    display: inline-block; width: 8px; height: 13px;
+    background: var(--amber); margin-left: 2px;
+    vertical-align: -2px;
+    animation: blink 1.1s steps(2) infinite;
+  }
+
+  .hero-cta-row {
+    display: flex; gap: 18px; flex-wrap: wrap; align-items: center;
+    margin-bottom: 24px;
+    animation: fadeUp 0.8s ease 0.6s both;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--paper);
+    background: var(--amber);
+    padding: 12px 18px;
+    border: 1px solid var(--amber);
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+  }
+  .hero-cta:hover {
+    background: transparent;
+    color: var(--amber);
+  }
+  .hero-cta:hover .arrow { transform: translateX(3px); }
+  .hero-cta .arrow { transition: transform 0.2s; }
+  .hero-cta-note {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 13px;
+    font-variation-settings: "opsz" 14;
+    color: var(--ink-muted);
+  }
+
+  .hero-links {
+    display: flex; gap: 28px; flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    animation: fadeUp 0.8s ease 0.65s both;
+  }
+  .hero-links a {
+    color: var(--ink-muted);
+    transition: color 0.2s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .hero-links a .arrow { transition: transform 0.2s; }
+  .hero-links a:hover { color: var(--amber); }
+  .hero-links a:hover .arrow { transform: translate(3px, -3px); }
+
+  /* Vitals sidebar */
+  .vitals {
+    border-left: 1px solid var(--rule);
+    padding-left: 32px;
+    padding-top: 8px;
+    animation: fadeUp 0.8s ease 0.8s both;
+  }
+  .vitals-title {
+    font-family: var(--font-mono);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 18px;
+  }
+  .vitals dl { font-family: var(--font-mono); font-size: 12px; }
+  .vitals dt {
+    color: var(--ink-muted);
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .vitals dd {
+    color: var(--ink);
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .vitals dd:last-of-type { margin-bottom: 0; }
+
+  /* ── SECTION HEAD (shared) ──────────────────────────── */
+  .section-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 32px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .section-head .label { color: var(--amber); }
+  .section-head .label::before { content: '▸ '; color: var(--ink-muted); }
+  .section-head .count { letter-spacing: 0.12em; }
+
+  /* ── NOW · TWO PILLARS ──────────────────────────────── */
+  .now { padding: 72px 0; border-bottom: 1px solid var(--rule); }
+  .section-lead {
+    font-family: var(--font-serif);
+    font-size: clamp(19px, 2vw, 24px);
+    line-height: 1.4;
+    color: var(--ink);
+    font-variation-settings: "opsz" 48, "SOFT" 30;
+    max-width: 740px;
+    margin: -8px 0 48px;
+    font-weight: 300;
+  }
+  .section-lead em {
+    font-style: italic; color: var(--amber);
+    font-weight: 400;
+  }
+
+  .pillars {
+    display: grid;
+    grid-template-columns: 1.45fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .pillar-open {
+    background: transparent;
+  }
+  .pillar-open .pillar-title {
+    font-size: clamp(32px, 3.6vw, 46px);
+  }
+  .pillar {
+    padding: 32px 28px 28px;
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    position: relative;
+    transition: border-color 0.25s;
+    min-width: 0;
+  }
+  .pillar:hover { border-color: var(--ink-muted); }
+  .pillar-label {
+    font-family: var(--font-mono);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .pillar-label::before {
+    content: ''; display: inline-block;
+    width: 18px; height: 1px;
+    background: var(--amber);
+  }
+  .pillar-open .pillar-label { color: var(--signal); }
+  .pillar-open .pillar-label::before { background: var(--signal); }
+
+  .pillar-title {
+    font-family: var(--font-serif);
+    font-size: clamp(44px, 5.2vw, 68px);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    color: var(--ink);
+    margin-bottom: 18px;
+  }
+  .pillar-title em { font-style: italic; font-weight: 500; }
+
+  .pillar-pitch {
+    font-family: var(--font-serif);
+    font-size: clamp(17px, 1.5vw, 19px);
+    font-style: italic;
+    font-variation-settings: "opsz" 18;
+    color: var(--ink);
+    line-height: 1.4;
+    margin-bottom: 16px;
+    max-width: 42ch;
+  }
+  .pillar-pitch strong {
+    font-style: normal; color: var(--amber);
+    font-weight: 500;
+  }
+  .pillar-open .pillar-pitch strong { color: var(--signal); }
+
+  .pillar-body {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    font-variation-settings: "opsz" 14;
+    margin-bottom: 18px;
+  }
+  .pillar-body em { color: var(--ink); font-style: italic; }
+  .pillar-body code {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    color: var(--ink);
+    background: rgba(255,168,40,0.08);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  .pillar .work-aside {
+    margin-left: 0; margin-right: 0;
+    margin-top: 14px;
+    font-size: 11px;
+  }
+  .pillar .work-figure { padding: 26px 10px 14px; }
+  .pillar .numa-diagram { max-width: 460px; }
+
+  .pillar-meta {
+    display: flex; gap: 12px 14px; flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .pillar-meta .sep { color: var(--rule); }
+  .pillar-meta .status-active { color: var(--signal); }
+
+  /* Licensing explainer inside Rinkt pillar */
+  .pillar-licence {
+    margin: 14px 0 18px;
+    padding: 12px 14px;
+    background: rgba(255,168,40,0.05);
+    border-left: 2px solid var(--amber);
+    font-family: var(--font-serif);
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    font-variation-settings: "opsz" 14;
+  }
+  .pillar-licence strong {
+    color: var(--ink); font-weight: 500;
+  }
+  .pillar-licence em { color: var(--amber); font-style: italic; }
+
+  /* Product cards inside Rinkt pillar */
+  .pillar-products {
+    margin: 16px 0 18px;
+  }
+  .pillar-products-label {
+    font-family: var(--font-mono);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 10px;
+  }
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    list-style: none;
+  }
+  .product-grid > li { display: flex; }
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 14px;
+    border: 1px solid var(--rule);
+    background: rgba(255,168,40,0.02);
+    transition: border-color 0.2s, background 0.2s;
+    width: 100%;
+  }
+  .product-card:hover {
+    border-color: var(--amber);
+    background: rgba(255,168,40,0.05);
+  }
+  .product-card .p-name {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 500;
+    font-style: italic;
+    font-variation-settings: "opsz" 18, "SOFT" 30;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .product-card:hover .p-name { color: var(--amber); }
+  .product-card .p-sub {
+    font-family: var(--font-serif);
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+    margin-bottom: 10px;
+    font-variation-settings: "opsz" 14;
+  }
+  .product-card .p-foot {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-top: auto;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .product-card .p-metric {
+    color: var(--signal); font-weight: 600;
+  }
+  .product-card .p-link {
+    color: var(--ink-muted);
+  }
+  .product-card:hover .p-link { color: var(--amber); }
+  .product-card.product-internal {
+    background: transparent;
+  }
+  .product-card.product-internal:hover {
+    border-color: var(--ink-muted);
+    background: transparent;
+  }
+
+  /* ── WRITING POINTER (in endpiece) ──────────────────── */
+  .writing-foot {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-muted);
+    font-variation-settings: "opsz" 14;
+  }
+  .writing-foot a {
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .writing-foot a:hover { color: var(--amber); border-color: var(--amber); }
+
+  /* Case-group headings (Field Reports sub-dividers) */
+  .case-group-head {
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--amber);
+    padding: 40px 0 8px;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .case-group-head:first-of-type { padding-top: 0; }
+  .case-group-head .rule {
+    flex: 1; height: 1px;
+    background: var(--rule);
+  }
+  .case-group-head .era {
+    color: var(--ink-muted);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+  }
+  .case-group-head.current { color: var(--signal); }
+
+  /* Case meta: inline delivery tag */
+  .case-meta .tag {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    padding: 1px 6px;
+    border: 1px solid var(--amber);
+    color: var(--amber);
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+  .case-meta .tag.via-rinkt { border-color: var(--signal); color: var(--signal); }
+  .pillar-meta a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1px;
+    display: inline-flex; align-items: center; gap: 4px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .pillar-meta a:hover { color: var(--amber); border-color: var(--amber); }
+  .pillar-open .pillar-meta a:hover { color: var(--signal); border-color: var(--signal); }
+
+  /* ── WORKS ──────────────────────────────────────────── */
+  .works { padding: 72px 0; border-bottom: 1px solid var(--rule); }
+
+  .work {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr;
+    gap: 32px;
+    transition: background 0.3s;
+  }
+  .work:last-child { border-bottom: none; }
+  .work:hover { background: linear-gradient(90deg, rgba(255,168,40,0.03), transparent 40%); }
+  .work:hover .work-title::after {
+    transform: scaleX(1);
+  }
+
+  .work-idx {
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 500;
+    color: var(--amber);
+    letter-spacing: 0.08em;
+  }
+
+  .work-head {
+    min-width: 0;
+  }
+  .work-title {
+    font-family: var(--font-serif);
+    font-size: clamp(28px, 3.4vw, 44px);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-variation-settings: "opsz" 72, "SOFT" 30;
+    color: var(--ink);
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+  }
+  .work-title em { font-style: italic; font-weight: 500; }
+  .work-title::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 1px; background: var(--amber);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.35s cubic-bezier(.2,.8,.2,1);
+  }
+
+  .work-sub {
+    font-family: var(--font-serif); font-style: italic;
+    font-variation-settings: "opsz" 14;
+    color: var(--ink-soft);
+    font-size: 16px;
+    margin-bottom: 14px;
+    max-width: 36ch;
+  }
+
+  .work-meta {
+    display: flex; gap: 12px; flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .work-meta .sep { color: var(--rule); }
+  .work-meta .status-active { color: var(--signal); }
+  .work-meta .status-maintained { color: var(--amber); }
+  .work-meta a {
+    color: var(--ink-muted);
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .work-meta a:hover { color: var(--amber); border-color: var(--amber); }
+
+  .work-body {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    font-variation-settings: "opsz" 14;
+  }
+  .work-body em { color: var(--ink); font-style: italic; }
+
+  /* Lead feature: Numa — bigger */
+  .work.work-lead {
+    grid-template-columns: 80px 1fr 1fr;
+    padding: 36px 0 44px;
+  }
+  .work.work-lead .work-title {
+    font-size: clamp(48px, 6vw, 84px);
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .work.work-lead .work-sub {
+    font-size: 20px; max-width: 40ch;
+  }
+  .work.work-lead .work-body { font-size: 16px; }
+
+  .work-aside {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-muted);
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    padding: 14px 16px;
+    margin-top: 16px;
+    line-height: 1.7;
+    position: relative;
+  }
+  .work-aside .comment { color: var(--ink-muted); }
+  .work-aside .kw { color: var(--amber); }
+  .work-aside .val { color: var(--signal); }
+  .work-aside .warn { color: var(--amber); font-weight: 600; }
+  .work-aside .err { color: var(--crimson); font-weight: 600; }
+  .work-aside .dim { color: var(--ink-muted); }
+  .work-aside .ink { color: var(--ink); }
+  .work-aside .label {
+    position: absolute; top: -1px; left: -1px;
+    background: var(--amber); color: var(--paper);
+    padding: 2px 8px; font-size: 9px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  /* ── FIGURE (SVG diagram) ───────────────────────────── */
+  .work-figure {
+    display: block;
+    padding: 28px 16px 20px;
+    margin-top: 16px;
+    overflow: hidden;
+  }
+  .work-figure .numa-diagram {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  .numa-diagram .wire {
+    stroke: var(--ink-muted);
+    stroke-width: 0.9;
+    stroke-dasharray: 2 3;
+    opacity: 0.55;
+  }
+  .numa-diagram .stroke {
+    stroke: var(--ink-soft);
+    stroke-width: 1.3;
+    fill: none;
+  }
+  .numa-diagram .fill-paper { fill: var(--paper-warm); }
+  .numa-diagram .stroke-thin {
+    stroke: var(--ink-muted);
+    stroke-width: 0.8;
+    fill: none;
+  }
+  .numa-diagram .led { fill: var(--ink-muted); }
+  .numa-diagram .led-active {
+    fill: var(--signal);
+    animation: numa-led 12s linear infinite;
+  }
+  .numa-diagram .diag-label {
+    fill: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-anchor: middle;
+    font-weight: 500;
+  }
+  .numa-diagram .diag-label .dim { fill: var(--ink-muted); opacity: 0.6; }
+  .numa-diagram .pulse-glow,
+  .numa-diagram .pulse-core {
+    animation: numa-packet 12s linear infinite;
+  }
+
+  @keyframes numa-packet {
+    0%   { cx: 110px; opacity: 0; }
+    2%   { cx: 110px; opacity: 1; }
+    18%  { cx: 440px; opacity: 1; }
+    20%  { cx: 440px; opacity: 1; }
+    36%  { cx: 110px; opacity: 1; }
+    38%  { cx: 110px; opacity: 0; }
+
+    45%  { cx: 110px; opacity: 0; }
+    46%  { cx: 110px; opacity: 1; }
+    52%  { cx: 255px; opacity: 1; }
+    54%  { cx: 255px; opacity: 1; }
+    60%  { cx: 110px; opacity: 1; }
+    62%  { cx: 110px; opacity: 0; }
+
+    68%  { cx: 110px; opacity: 0; }
+    69%  { cx: 110px; opacity: 1; }
+    75%  { cx: 255px; opacity: 1; }
+    77%  { cx: 255px; opacity: 1; }
+    83%  { cx: 110px; opacity: 1; }
+    85%  { cx: 110px; opacity: 0; }
+
+    100% { cx: 110px; opacity: 0; }
+  }
+  @keyframes numa-led {
+    0%, 6%   { fill: var(--ink-muted); }
+    8%, 10%  { fill: var(--amber); }
+    12%, 22% { fill: var(--ink-muted); }
+    24%, 26% { fill: var(--amber); }
+    28%, 50% { fill: var(--ink-muted); }
+    52%, 54% { fill: var(--amber); }
+    56%, 74% { fill: var(--ink-muted); }
+    75%, 77% { fill: var(--amber); }
+    79%, 100%{ fill: var(--ink-muted); }
+  }
+
+  /* ── CASES ──────────────────────────────────────────── */
+  .cases { padding: 72px 0; border-bottom: 1px solid var(--rule); }
+  .case {
+    padding: 32px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    display: grid;
+    grid-template-columns: 80px 220px 1fr;
+    gap: 32px;
+    transition: background 0.3s;
+  }
+  .case:last-child { border-bottom: none; }
+  .case:hover { background: linear-gradient(90deg, rgba(234,90,66,0.03), transparent 40%); }
+
+  .case-idx {
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 500;
+    color: var(--crimson);
+    letter-spacing: 0.08em;
+  }
+  .case-meta {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-muted);
+    line-height: 1.8;
+  }
+  .case-meta dt { color: var(--ink-muted); display: inline; }
+  .case-meta dd {
+    display: block; color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .case-meta dd:last-child { margin-bottom: 0; }
+
+  .case-title {
+    font-family: var(--font-serif);
+    font-size: clamp(22px, 2.4vw, 32px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    font-variation-settings: "opsz" 48, "SOFT" 30;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .case-title em { font-style: italic; }
+  .case-body {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+  .case-body strong {
+    color: var(--ink); font-weight: 500;
+  }
+
+  /* ── ENDPIECE ───────────────────────────────────────── */
+  .endpiece {
+    padding: 100px 0 80px;
+    text-align: center;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  .endpiece::before, .endpiece::after {
+    content: '§';
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 24px;
+    color: var(--amber);
+    margin: 0 auto 40px;
+    font-style: italic;
+  }
+  .endpiece::after { margin: 40px auto 0; }
+  .endpiece-line {
+    font-family: var(--font-serif);
+    font-size: clamp(22px, 2.6vw, 32px);
+    line-height: 1.35;
+    font-variation-settings: "opsz" 72, "SOFT" 30;
+    max-width: 640px;
+    margin: 0 auto 28px;
+    color: var(--ink);
+    font-weight: 300;
+  }
+  .endpiece-line em { font-style: italic; color: var(--amber); }
+  .endpiece-contact {
+    font-family: var(--font-mono);
+    font-size: 13px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-muted);
+    display: inline-flex; align-items: center; gap: 16px;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .endpiece-contact a {
+    color: var(--ink); border-bottom: 1px solid var(--rule);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .endpiece-contact a:hover { color: var(--amber); border-color: var(--amber); }
+  .endpiece-contact .sep { color: var(--rule); }
+
+  /* ── COLOPHON ───────────────────────────────────────── */
+  .colophon {
+    padding: 32px 0 48px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-muted);
+    line-height: 1.6;
+  }
+  .colo-label {
+    display: block;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 6px;
+  }
+
+  /* ── PORTRAIT ───────────────────────────────────────── */
+  .portrait {
+    position: relative;
+    margin-bottom: 20px;
+    animation: fadeUp 0.8s ease 0.75s both;
+  }
+  .portrait-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+  }
+  .portrait-frame img {
+    display: block;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: url(#portrait-duotone);
+  }
+  /* Halftone-ish dot pattern overlay */
+  .portrait-frame::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(12,11,15,0.4) 0.9px, transparent 1.2px);
+    background-size: 3px 3px;
+    mix-blend-mode: multiply;
     pointer-events: none;
   }
-  .cta p {
-    font-family: var(--font-heading); color: var(--muted); font-size: 14px;
-    margin-bottom: 20px; position: relative;
+  /* Film grain on top */
+  .portrait-frame::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 0.9  0 0 0 0 0.6  0 0 0 0.35 0'/></filter><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>");
+    mix-blend-mode: overlay;
+    opacity: 0.55;
+    pointer-events: none;
   }
-  .cta .cta-link {
-    display: inline-block; padding: 12px 32px; background: var(--accent); color: var(--bg);
-    font-family: var(--font-heading); font-weight: 700; font-size: 14px;
-    border-radius: 6px; transition: box-shadow 0.25s, transform 0.15s;
-    position: relative; letter-spacing: 0.3px;
+  /* Corner registration ticks — print plate feel */
+  .portrait-frame .tick {
+    position: absolute;
+    width: 8px; height: 8px;
+    border-color: var(--amber);
+    border-style: solid;
+    border-width: 0;
+    pointer-events: none;
   }
-  .cta .cta-link:hover {
-    box-shadow: 0 0 24px rgba(108,140,255,0.3); transform: translateY(-1px);
-    text-decoration: none;
+  .portrait-frame .tick.tl { top: -1px; left: -1px; border-top-width: 1px; border-left-width: 1px; }
+  .portrait-frame .tick.tr { top: -1px; right: -1px; border-top-width: 1px; border-right-width: 1px; }
+  .portrait-frame .tick.bl { bottom: -1px; left: -1px; border-bottom-width: 1px; border-left-width: 1px; }
+  .portrait-frame .tick.br { bottom: -1px; right: -1px; border-bottom-width: 1px; border-right-width: 1px; }
+
+  /* Tiny duotone avatar for colophon */
+  .colo-avatar {
+    display: block;
+    width: 38px; height: 38px;
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    float: left;
+    margin: 2px 12px 0 0;
+  }
+  .colo-avatar img {
+    display: block;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: url(#portrait-duotone);
   }
 
-  /* Footer */
-  footer {
-    border-top: 1px solid var(--border); padding-top: 24px; margin-top: 16px;
-    color: var(--muted); font-size: 13px;
-    font-family: var(--font-heading); letter-spacing: 0.2px;
-  }
-
-  /* Animations */
+  /* ── ANIMATIONS ─────────────────────────────────────── */
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes ruleGrow {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+  @keyframes blink {
+    0%, 50%  { opacity: 1; }
+    51%, 100%{ opacity: 0; }
   }
 
-  @media (max-width: 600px) {
-    main.container { padding: 32px 16px; }
-    header.hero h1 { font-size: 26px; }
-    header.hero::before { width: 400px; left: -100px; }
-    .project-head { flex-direction: column; align-items: flex-start; gap: 6px; }
+  /* ── RESPONSIVE ─────────────────────────────────────── */
+  @media (max-width: 900px) {
+    header.masthead { padding: 14px 20px; font-size: 10px; gap: 12px; flex-wrap: wrap; }
+    .mast-center { display: none; }
+    main { padding: 0 20px; }
+    .hero { grid-template-columns: 1fr; gap: 48px; padding: 56px 0 48px; }
+    .vitals { border-left: none; border-top: 1px solid var(--rule); padding: 24px 0 0; display: grid; grid-template-columns: 180px 1fr; gap: 28px; align-items: start; }
+    .vitals .portrait { margin-bottom: 0; grid-row: span 2; }
+    .vitals .vitals-title, .vitals dl { grid-column: 2; }
+    .work, .case { grid-template-columns: 1fr; gap: 14px; }
+    .work-idx, .case-idx { margin-bottom: -8px; }
+    .work.work-lead { padding: 28px 0 36px; }
+    .pillars { grid-template-columns: 1fr; gap: 20px; }
+    .pillar { padding: 24px 20px 22px; }
+    .colophon { grid-template-columns: 1fr; gap: 16px; }
+  }
+
+  @media (max-width: 540px) {
+    .vitals { grid-template-columns: 120px 1fr; gap: 16px; }
+    .product-grid { grid-template-columns: 1fr; }
+    .product-grid > li[style*="grid-column"] { grid-column: 1 !important; }
+    .hero-cta { padding: 14px 16px; font-size: 11px; }
+    .hero-cta-note { font-size: 12px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: 0.01ms !important; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+    .numa-diagram .pulse-glow,
+    .numa-diagram .pulse-core { opacity: 0.7; }
+    .numa-diagram .led-active { fill: var(--signal); }
   }
 </style>
 </head>
 <body>
+
+<!-- SVG filter defs: duotone amber-on-ink for portraits -->
 <svg width="0" height="0" aria-hidden="true" style="position:absolute">
-  <filter id="violet-fractal" x="0%" y="0%" width="100%" height="100%">
-    <!-- Fractal noise → grayscale luminance -->
-    <feTurbulence type="fractalNoise" baseFrequency="0.009" numOctaves="5" seed="7" stitchTiles="stitch" result="noise"/>
-    <feColorMatrix type="luminanceToAlpha" in="noise" result="alpha"/>
-    <!-- Flood with exact violet, use noise as opacity mask -->
-    <feFlood flood-color="rgb(33,10,63)" result="color"/>
-    <feComposite in="color" in2="alpha" operator="in"/>
-  </filter>
+  <defs>
+    <filter id="portrait-duotone" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values="
+        0.33 0.33 0.33 0 0
+        0.33 0.33 0.33 0 0
+        0.33 0.33 0.33 0 0
+        0    0    0    1 0"/>
+      <feComponentTransfer>
+        <!-- Shadow tone → near paper ink; Highlight tone → phosphor amber -->
+        <feFuncR tableValues="0.06 1.00"/>
+        <feFuncG tableValues="0.05 0.68"/>
+        <feFuncB tableValues="0.07 0.18"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
 </svg>
-<main class="container">
 
-  <header class="hero">
-    <h1>Razvan Dimescu</h1>
-    <p class="tagline">Production automation for messy, real-world business processes.</p>
-    <p class="bio">I turn manual operations into reliable software — inconsistent documents, unreliable workflows, regulated industries. From RPA engines and workflow orchestration to AI-powered document pipelines, across accounting, energy, and finance in Romania and the UK.</p>
-    <p class="now">Currently building <a href="https://numa.rs">Numa</a> — a DNS resolver from scratch in Rust. <a href="https://numa.rs/blog/">Writing about it</a>.</p>
-    <nav class="links" aria-label="Profile links">
-      <a href="https://numa.rs/blog/">Blog</a>
-      <a href="https://github.com/razvandimescu" target="_blank" rel="noopener noreferrer">GitHub</a>
+<header class="masthead">
+  <div class="mast-left">
+    <span class="mast-mark">R</span>
+    <span class="mast-title">DIMESCU.RO</span>
+  </div>
+  <div class="mast-center">Est. Craiova</div>
+  <div class="mast-right">
+    <a href="https://rinkt.com" target="_blank" rel="noopener noreferrer">rinkt.com ↗</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ── HERO ─────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-main">
+      <div class="hero-kicker">Co-founder &amp; CTO, Rinkt</div>
+
+      <h1 class="hero-name">
+        <span class="given">Razvan</span>
+        <span class="family">Dimescu</span>
+      </h1>
+
+      <p class="standfirst">
+        <span class="dropcap">I</span>turn manual operations into reliable software — inconsistent documents, unreliable workflows, regulated industries. RPA engines, workflow orchestration, and AI document pipelines shipped across <em>accounting, energy, and finance</em> in Romania and the UK.
+      </p>
+
+      <p class="currently">
+        <span class="currently-label">▸ Currently</span>
+        Building <a href="https://rinkt.com">Rinkt</a> — an MCP-native RPA platform for back-offices. Licensed per automation, not per seat.<span class="cursor" aria-hidden="true"></span>
+      </p>
+
+      <div class="hero-cta-row">
+        <a class="hero-cta" href="mailto:razvan.dimescu@rinkt.com?subject=Automation%20inquiry&amp;body=Industry%3A%0AProcess%20to%20automate%3A%0AVolume%20per%20month%3A%0ATimeframe%3A">
+          Discuss an automation <span class="arrow">→</span>
+        </a>
+        <span class="hero-cta-note">20-min intro · no deck, no pitch</span>
+      </div>
+
+      <nav class="hero-links" aria-label="Profile links">
+        <a href="https://github.com/razvandimescu" target="_blank" rel="noopener noreferrer">GitHub <span class="arrow">↗</span></a>
+        <a href="https://linkedin.com/in/razvandimescu" target="_blank" rel="noopener noreferrer">LinkedIn <span class="arrow">↗</span></a>
+        <a href="https://numa.rs/blog/">Blog <span class="arrow">↗</span></a>
+      </nav>
+    </div>
+
+    <aside class="vitals" aria-label="Vitals">
+      <figure class="portrait">
+        <div class="portrait-frame">
+          <img src="avatar.jpg" alt="Razvan Dimescu — duotone avatar" width="460" height="460" loading="lazy">
+          <span class="tick tl" aria-hidden="true"></span>
+          <span class="tick tr" aria-hidden="true"></span>
+          <span class="tick bl" aria-hidden="true"></span>
+          <span class="tick br" aria-hidden="true"></span>
+        </div>
+      </figure>
+
+      <div class="vitals-title">Vitals</div>
+      <dl>
+        <dt>Stack</dt>
+        <dd>Rust · Go · Python · TS</dd>
+        <dt>Domains</dt>
+        <dd>Energy · Finance · Accounting</dd>
+        <dt>Operating from</dt>
+        <dd>Craiova, Romania → EU + UK</dd>
+        <dt>Coding since</dt>
+        <dd>2006</dd>
+      </dl>
+    </aside>
+  </section>
+
+  <!-- ── NOW · TWO PILLARS ──────────────────────── -->
+  <section class="now" aria-labelledby="now-head">
+    <div class="section-head">
+      <span class="label" id="now-head">Now · What I'm building</span>
+    </div>
+    <p class="section-lead">
+      Day job is <em>Rinkt</em> — an MCP-native RPA platform for back-office work. On the side, <em>Numa</em> — a sovereign DNS resolver I wrote from scratch in Rust, now my daily driver.
+    </p>
+
+    <div class="pillars">
+
+      <!-- PILLAR 1 · RINKT (commercial, paid) -->
+      <article class="pillar">
+        <div class="pillar-label">Commercial · Paid work</div>
+        <h3 class="pillar-title">Rinkt</h3>
+        <p class="pillar-pitch">
+          <strong>MCP-native RPA platform</strong> for accounting firms and back-office teams. Cross-platform bots, durable execution, AI agents as first-class callers.
+        </p>
+        <p class="pillar-body">Co-founder &amp; CTO since 2021. Built the platform and every automation running on it — a cross-platform runner across browsers, desktops, and Office apps, with <em>durable execution that recovers mid-step</em>. The UiPath shape, rebuilt for AI agents as first-class callers — not bolted on.</p>
+
+        <p class="pillar-licence">
+          <strong>How we price it:</strong> <em>licensed per deployed automation</em> — you pay for the bots that run, not the seats that watch. Typical engagement starts at 3 automations per client; replaces 0.5–2 FTEs of back-office time.
+        </p>
+
+        <div class="pillar-products">
+          <div class="pillar-products-label">— Automations shipping on Rinkt</div>
+          <ul class="product-grid">
+            <li>
+              <a class="product-card" href="https://facturagpt.ro" target="_blank" rel="noopener noreferrer">
+                <div class="p-name">FacturaGPT</div>
+                <div class="p-sub">Invoice capture → eFactura / NIR posting, with mid-step recovery.</div>
+                <div class="p-foot">
+                  <span class="p-metric">−90% baseline</span>
+                  <span class="p-link">facturagpt.ro ↗</span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a class="product-card" href="https://extrasgpt.ro" target="_blank" rel="noopener noreferrer">
+                <div class="p-name">Extras GPT</div>
+                <div class="p-sub">Bank statements across 9 RO banks → accounting codes.</div>
+                <div class="p-foot">
+                  <span class="p-metric">−80% reconciliation</span>
+                  <span class="p-link">extrasgpt.ro ↗</span>
+                </div>
+              </a>
+            </li>
+            <li style="grid-column: 1 / -1;">
+              <div class="product-card product-internal">
+                <div class="p-name" style="font-style: normal;">Online-payment allocation</div>
+                <div class="p-sub">Netopia &amp; PayU payout files → matched receipts, posted nightly.</div>
+                <div class="p-foot">
+                  <span class="p-metric">−90%+ manual handling</span>
+                  <span class="p-link">custom · per-client</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <pre class="work-aside" aria-hidden="true"><span class="label">Tool call</span>
+<span class="comment">&gt; agent.call(<span class="kw">"invoice.process"</span>, { email_id: <span class="val">"..."</span> })</span>
+
+<span class="ink">▸ workflow.invoice.process</span>       <span class="comment">run 0x7c1a</span>
+  ├─ <span class="val">✓</span> fetch.gmail_unread          <span class="val">412 ms</span>
+  ├─ <span class="val">✓</span> extract.line_items          <span class="val">2.1 s</span>
+  ├─ <span class="warn">⏸</span>  runner restart   <span class="warn">resume @ step 3/5</span>
+  ├─ <span class="val">✓</span> match.supplier_pgvector     <span class="val">184 ms</span>
+  └─ <span class="val">✓</span> post.saft_ledger             <span class="val">89 ms</span>
+
+<span class="comment">&lt; return: { status: <span class="val">"ok"</span>, run: <span class="val">"0x7c1a"</span>, dur: <span class="val">2.8s</span>, <span class="val">durable ✓</span> }</span></pre>
+
+        <div class="pillar-meta">
+          <span>Go · FastAPI · Temporal · NATS · Playwright</span>
+          <span class="sep">│</span>
+          <span class="status-active">● Active</span>
+          <span class="sep">│</span>
+          <a href="https://rinkt.com" target="_blank" rel="noopener noreferrer">rinkt.com ↗</a>
+        </div>
+      </article>
+
+      <!-- PILLAR 2 · NUMA (open source, side project) -->
+      <article class="pillar pillar-open">
+        <div class="pillar-label">Open source · Side project</div>
+        <h3 class="pillar-title"><em>Numa</em></h3>
+        <p class="pillar-pitch">
+          <strong>DNS you own.</strong> Everywhere you go.
+        </p>
+        <p class="pillar-body">Reach a service on your laptop from your phone or your team — without accounts, third parties, or giving up your keys. Portable resolver written from scratch in Rust — zero DNS libraries, wire protocol parsed by hand. Recursive resolution from root nameservers with full DNSSEC, ad blocking across <em>385K+</em> domains, DNS-over-HTTPS, <code>.numa</code> local domains with auto-TLS, LAN service discovery. <em>My daily-driven system DNS.</em></p>
+
+        <figure class="work-aside work-figure" aria-hidden="true">
+          <span class="label">Fig. · Resolver path</span>
+          <svg class="numa-diagram" viewBox="0 0 520 160" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="numa-pulse-grad-p" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffa828" stop-opacity="1"/>
+                <stop offset="40%" stop-color="#ffa828" stop-opacity="0.55"/>
+                <stop offset="100%" stop-color="#ffa828" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+
+            <line class="wire" x1="110" y1="75" x2="220" y2="75"/>
+            <line class="wire" x1="290" y1="75" x2="412" y2="75"/>
+
+            <circle class="pulse-glow" cx="110" cy="75" r="14" fill="url(#numa-pulse-grad-p)"/>
+            <circle class="pulse-core" cx="110" cy="75" r="3" fill="#ffa828"/>
+
+            <g>
+              <rect class="fill-paper stroke" x="30" y="45" width="80" height="52" rx="2"/>
+              <rect class="stroke-thin" x="36" y="51" width="68" height="40" fill="none"/>
+              <path class="fill-paper stroke" d="M 22 102 L 118 102 L 112 108 L 28 108 Z"/>
+              <line class="stroke-thin" x1="60" y1="105" x2="80" y2="105"/>
+            </g>
+
+            <g>
+              <rect class="fill-paper stroke" x="220" y="42" width="70" height="68" rx="2"/>
+              <line class="stroke-thin" x1="228" y1="58" x2="282" y2="58"/>
+              <line class="stroke-thin" x1="228" y1="76" x2="282" y2="76"/>
+              <line class="stroke-thin" x1="228" y1="94" x2="282" y2="94"/>
+              <circle class="led" cx="276" cy="50" r="1.5"/>
+              <circle class="led-active" cx="276" cy="68" r="1.8"/>
+              <circle class="led" cx="276" cy="86" r="1.5"/>
+              <circle class="led" cx="276" cy="104" r="1.5"/>
+            </g>
+
+            <g>
+              <circle class="fill-paper stroke" cx="440" cy="75" r="28"/>
+              <ellipse class="stroke-thin" cx="440" cy="75" rx="28" ry="10"/>
+              <line class="stroke-thin" x1="440" y1="47" x2="440" y2="103"/>
+              <path class="stroke-thin" d="M 414 60 Q 440 75 466 60"/>
+              <path class="stroke-thin" d="M 414 90 Q 440 75 466 90"/>
+            </g>
+
+            <text class="diag-label" x="70" y="132">CLIENT</text>
+            <text class="diag-label" x="255" y="132">NUMA :53</text>
+            <text class="diag-label" x="440" y="132">UPSTREAM · 1.1.1.1</text>
+          </svg>
+        </figure>
+
+        <pre class="work-aside" aria-hidden="true"><span class="label">Dig</span>
+<span class="comment">; &lt;&lt;&gt;&gt; dig @numa razvan.numa</span>
+<span class="comment">;; ANSWER SECTION:</span>
+<span class="kw">razvan.numa.</span>   300   IN   A   <span class="val">192.168.1.42</span>
+<span class="kw">razvan.numa.</span>   300   IN   TXT <span class="val">"via numa override"</span></pre>
+
+        <div class="pillar-meta">
+          <span>Rust · tokio · axum · rustls</span>
+          <span class="sep">│</span>
+          <span class="status-active">● Active · v0.13</span>
+          <span class="sep">│</span>
+          <a href="https://numa.rs" target="_blank" rel="noopener noreferrer">numa.rs ↗</a>
+          <a href="https://numa.rs/blog/" target="_blank" rel="noopener noreferrer">blog ↗</a>
+          <a href="https://github.com/razvandimescu/numa" target="_blank" rel="noopener noreferrer">source ↗</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ── FIELD REPORTS ────────────────────────── -->
+  <section class="cases" aria-labelledby="cases-head">
+    <div class="section-head">
+      <span class="label" id="cases-head">Field Reports</span>
+      <span class="count">Case 01 — 04</span>
+    </div>
+
+    <div class="case-group-head current">
+      <span>— Delivered via Rinkt</span>
+      <span class="era">2021 → present</span>
+      <span class="rule"></span>
+    </div>
+
+    <article class="case">
+      <div class="case-idx">Case 01</div>
+      <dl class="case-meta">
+        <dt>Sector</dt><dd>E-commerce · UK distributor</dd>
+        <dt>Scope</dt><dd>Returns processing pipeline</dd>
+        <dt>Stack</dt><dd>OCR · GPT-4o · pgvector</dd>
+        <dt>Routing</dt><dd>Auto / Review / Escalate</dd>
+        <dt>Delivery</dt><dd>Via Rinkt</dd>
+      </dl>
+      <div>
+        <h3 class="case-title">Unstructured email returns → confidence-based auto-processing.</h3>
+        <p class="case-body">Product returns arrive as inconsistent emails — PDFs, phone photos, varied formats. Built a pipeline that OCRs attachments, classifies issues with GPT-4o, matches products via vector similarity, and routes by confidence: <em>auto-approve, review, or escalate</em>.</p>
+      </div>
+    </article>
+
+    <article class="case">
+      <div class="case-idx">Case 02</div>
+      <dl class="case-meta">
+        <dt>Sector</dt><dd>Finance · UK brokers</dd>
+        <dt>Scope</dt><dd>Quote aggregation · 10+ funders</dd>
+        <dt>Outcome</dt><dd>30 min → seconds</dd>
+        <dt>Stack</dt><dd>Playwright · Go · NATS</dd>
+        <dt>Delivery</dt><dd>Via Rinkt</dd>
+      </dl>
+      <div>
+        <h3 class="case-title">Vehicle finance rates across 10+ funders, in parallel.</h3>
+        <p class="case-body">UK finance brokers manually check rates across <strong>10+ funders</strong>. Built parallel browser and API workers that query every funder concurrently and return unified quotes — replacing a 30-minute manual process with seconds.</p>
+      </div>
+    </article>
+
+    <div class="case-group-head">
+      <span>— Prior role</span>
+      <span class="era">Batiq SRL &middot; AutoGrid &middot; 2018 – 2025</span>
+      <span class="rule"></span>
+    </div>
+
+    <article class="case">
+      <div class="case-idx">Case 03</div>
+      <dl class="case-meta">
+        <dt>Sector</dt><dd>Energy · Grid services</dd>
+        <dt>Scope</dt><dd>Aggregation, dispatch, C&amp;C</dd>
+        <dt>Duration</dt><dd>7 years · POC → team of 8</dd>
+        <dt>Geography</dt><dd>France · Spain · EU grid</dd>
+        <dt>Role</dt><dd>Staff engineer · Batiq SRL</dd>
+      </dl>
+      <div>
+        <h3 class="case-title">Solar aggregation, gas dispatch, frequency-containment reserves.</h3>
+        <p class="case-body">Started as a single-developer POC, grew into a team of 8 over seven years. Built aggregation software for solar farms totalling <strong>5 GW</strong>, direct dispatch on negative energy prices with real-time notifications, and command &amp; control for gas turbines producing <strong>800 MW+</strong>. Deployed software and hardware for frequency-containment reserves across sites in France and Spain. Owned CI/CD, service deployment, SFTP configuration, and Helm charts throughout.</p>
+        <pre class="work-aside" aria-hidden="true"><span class="label">Alarm</span>
+<span class="err">! ALARM</span>   09:42:14Z   <span class="ink">grid.freq</span> = <span class="err">49.81 Hz</span>
+           <span class="ink">containment.reserve</span> = <span class="val">ENGAGED</span>
+  <span class="dim">────────────────────────────────────────</span>
+  ▸ solar.farm_01 · FR   curtail   <span class="err">−120 MW</span>
+  ▸ solar.farm_07 · ES   hold      <span class="dim">——</span>
+  ▸ gas.unit_04   · FR   ramp+     <span class="val">+240 MW</span>
+  <span class="dim">────────────────────────────────────────</span>
+  <span class="dim">stabilised · Δt = <span class="val">3.7s</span> · reserve ok  <span class="val">✓</span></span></pre>
+      </div>
+    </article>
+
+    <article class="case">
+      <div class="case-idx">Case 04</div>
+      <dl class="case-meta">
+        <dt>Sector</dt><dd>Energy · RO distributor</dd>
+        <dt>Scope</dt><dd>Email triage · NLP</dd>
+        <dt>Training set</dt><dd>36K messages · 212 categories</dd>
+        <dt>Accuracy</dt><dd>~79% baseline</dd>
+        <dt>Role</dt><dd>Prior consultancy</dd>
+      </dl>
+      <div>
+        <h3 class="case-title">Automated email routing across 212 internal categories.</h3>
+        <p class="case-body">A Romanian energy distributor routes thousands of customer and partner emails by hand. Built an ML pipeline (SVM + TF-IDF) that classifies incoming messages and extracts structured rules from their bodies — trained on <strong>36K historical emails</strong>, now progressing toward production deployment.</p>
+      </div>
+    </article>
+
+  </section>
+
+  <!-- ── SELECTED WORKS ───────────────────────── -->
+  <section class="works" aria-labelledby="works-head">
+    <div class="section-head">
+      <span class="label" id="works-head">Open source · Side projects</span>
+      <span class="count">01 — 03</span>
+    </div>
+
+    <!-- 01 · gopdf -->
+    <article class="work">
+      <div class="work-idx">01</div>
+      <div class="work-head">
+        <h3 class="work-title">gopdf</h3>
+        <p class="work-sub">PDF extraction &amp; creation, pure Go.</p>
+        <div class="work-meta">
+          <span>Go · MIT</span>
+          <span class="sep">│</span>
+          <span class="status-maintained">◌ Maintained</span>
+          <span class="sep">│</span>
+          <a href="https://github.com/razvandimescu/gopdf" target="_blank" rel="noopener noreferrer">source ↗</a>
+        </div>
+      </div>
+      <div>
+        <p class="work-body">Parse, extract, and generate PDFs from Go without CGo or external libraries. <em>Zero dependencies.</em> Same protocol-layer instinct as Numa — read the spec, write the parser.</p>
+      </div>
+    </article>
+
+    <!-- 02 · go-launcher -->
+    <article class="work">
+      <div class="work-idx">02</div>
+      <div class="work-head">
+        <h3 class="work-title">go-launcher</h3>
+        <p class="work-sub">Auto-updates that don't brick themselves.</p>
+        <div class="work-meta">
+          <span>Go · MIT</span>
+          <span class="sep">│</span>
+          <span class="status-maintained">◌ Maintained</span>
+          <span class="sep">│</span>
+          <a href="https://github.com/rinktltd/go-launcher" target="_blank" rel="noopener noreferrer">source ↗</a>
+        </div>
+      </div>
+      <div>
+        <p class="work-body">Open-source Go library — external supervisor pattern, versioned directories, automatic rollback on failure. Think Squirrel, for Go desktop apps.</p>
+        <pre class="work-aside" aria-hidden="true"><span class="label">State</span>
+<span class="kw">/opt/app/versions/</span>
+  ├─ <span class="dim">v1.2.3/</span>  <span class="dim">retired</span>     (replaced 04-03)
+  ├─ <span class="val">v1.2.4/</span>  <span class="val">active</span>      (uptime 14d 7h)
+  └─ <span class="warn">v1.2.5/</span>  <span class="warn">probation</span>   (47s, <span class="val">no crash</span>)</pre>
+      </div>
+    </article>
+
+    <!-- 03 · peekm -->
+    <article class="work">
+      <div class="work-idx">03</div>
+      <div class="work-head">
+        <h3 class="work-title">peekm</h3>
+        <p class="work-sub">Markdown viewer with AI-session tracking.</p>
+        <div class="work-meta">
+          <span>Go · npm · Homebrew</span>
+          <span class="sep">│</span>
+          <span class="status-maintained">◌ Maintained</span>
+          <span class="sep">│</span>
+          <a href="https://peekm.dev" target="_blank" rel="noopener noreferrer">peekm.dev ↗</a>
+        </div>
+      </div>
+      <p class="work-body">Single Go binary, installable via npm or Homebrew. Designed for reading long markdown + tracking AI-assisted coding sessions at a glance.</p>
+    </article>
+
+  </section>
+
+  <!-- ── ENDPIECE ─────────────────────────────── -->
+  <section class="endpiece" aria-labelledby="contact-head">
+    <h2 id="contact-head" class="sr-only" style="position:absolute;left:-9999px">Contact</h2>
+    <p class="endpiece-line">
+      <em>Messy processes, unreliable workflows, documents that don't parse themselves</em> — if that sounds familiar, let's talk.
+    </p>
+    <p style="margin: 0 0 24px;">
+      <a class="hero-cta" href="mailto:razvan.dimescu@rinkt.com?subject=Automation%20inquiry&amp;body=Industry%3A%0AProcess%20to%20automate%3A%0AVolume%20per%20month%3A%0ATimeframe%3A">
+        Discuss an automation <span class="arrow">→</span>
+      </a>
+    </p>
+    <p class="endpiece-contact">
+      <a href="mailto:razvan.dimescu@rinkt.com">razvan.dimescu@rinkt.com</a>
+      <span class="sep">·</span>
       <a href="https://linkedin.com/in/razvandimescu" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-    </nav>
-  </header>
-
-  <section class="section" aria-labelledby="projects-heading">
-    <h2 id="projects-heading">Projects</h2>
-    <div class="projects">
-
-      <div class="project">
-        <div class="project-head">
-          <span class="project-name">Numa</span>
-          <div class="project-meta">
-            <a href="https://numa.rs" target="_blank" rel="noopener noreferrer">numa.rs</a>
-            <a href="https://github.com/razvandimescu/numa" target="_blank" rel="noopener noreferrer">GitHub</a>
-            <span class="status status-active">Active</span>
-          </div>
-        </div>
-        <p class="project-desc">Portable DNS resolver I run as my daily system DNS. Ad blocking (385K+ domains), DNS-over-HTTPS, .numa local domains with auto TLS reverse proxy, LAN service discovery, and developer overrides with auto-revert. Built from scratch in Rust — zero DNS libraries, wire protocol parsed by hand.</p>
-        <div class="tags">
-          <span class="tag tag-rust">Rust</span>
-          <span class="tag tag-rust">tokio</span>
-          <span class="tag tag-rust">axum</span>
-          <span class="tag tag-rust">rustls</span>
-        </div>
-      </div>
-
-      <div class="project">
-        <div class="project-head">
-          <span class="project-name">Rinkt</span>
-          <div class="project-meta">
-            <a href="https://rinkt.com" target="_blank" rel="noopener noreferrer">rinkt.com</a>
-            <span class="status status-active">Active</span>
-          </div>
-        </div>
-        <p class="project-desc">Co-founder and CTO — responsible for all development and infrastructure. Rinkt automates manual business operations for accounting firms, distributors, and back-office teams. Implementation-first: conversational workflow builder, orchestration API, and a cross-platform runner executing across browsers, desktops, and Office apps — with durable execution that recovers mid-step, not from scratch.</p>
-        <div class="tags">
-          <span class="tag tag-go">Go</span>
-          <span class="tag tag-python">FastAPI</span>
-          <span class="tag tag-ts">Playwright</span>
-          <span class="tag tag-ts">Temporal</span>
-          <span class="tag tag-ts">NATS</span>
-        </div>
-      </div>
-
-      <div class="project">
-        <div class="project-head">
-          <span class="project-name">Extras GPT</span>
-          <div class="project-meta">
-            <a href="https://extrasgpt.ro" target="_blank" rel="noopener noreferrer">extrasgpt.ro</a>
-            <span class="status status-active">Active</span>
-          </div>
-        </div>
-        <p class="project-desc">Accountants spend hours matching bank transactions to accounting codes by hand. This tool parses statements from 9 Romanian banks, classifies transactions with GPT-4, and surfaces edge cases for human review — turning hours of manual work into minutes.</p>
-        <div class="tags">
-          <span class="tag tag-python">Python</span>
-          <span class="tag tag-react">React</span>
-          <span class="tag tag-ai">GPT-4</span>
-          <span class="tag tag-python">FastAPI</span>
-        </div>
-      </div>
-
-      <div class="project">
-        <div class="project-head">
-          <span class="project-name">FacturaGPT</span>
-          <div class="project-meta">
-            <a href="https://facturagpt.ro" target="_blank" rel="noopener noreferrer">facturagpt.ro</a>
-            <span class="status status-active">Active</span>
-          </div>
-        </div>
-        <p class="project-desc">Romanian invoices arrive as scanned PDFs, photos, and XML from ANAF's eFactura system — no two the same. Extracts structured data from any document format, manages eFactura downloads for accountants, and automates goods receipt notes for restaurant chains.</p>
-        <div class="tags">
-          <span class="tag tag-react">React</span>
-          <span class="tag tag-python">FastAPI</span>
-          <span class="tag tag-ai">AI</span>
-          <span class="tag tag-ts">TypeScript</span>
-        </div>
-      </div>
-
-      <div class="project">
-        <div class="project-head">
-          <span class="project-name">Cauta Firma</span>
-          <div class="project-meta">
-            <a href="https://cauta-firma.ro" target="_blank" rel="noopener noreferrer">cauta-firma.ro</a>
-            <a href="https://github.com/razvandimescu/cauta-firma" target="_blank" rel="noopener noreferrer">GitHub</a>
-            <span class="status status-active">Active</span>
-          </div>
-        </div>
-        <p class="project-desc">Instant search across 4M+ Romanian companies with live ANAF financial data. Free, open source, runs entirely on Cloudflare's free tier.</p>
-        <div class="tags">
-          <span class="tag tag-ts">TypeScript</span>
-          <span class="tag tag-ts">Cloudflare Workers</span>
-          <span class="tag tag-ts">D1</span>
-        </div>
-      </div>
-
-      <div class="project">
-        <div class="project-head">
-          <span class="project-name">go-launcher</span>
-          <div class="project-meta">
-            <a href="https://github.com/rinktltd/go-launcher" target="_blank" rel="noopener noreferrer">GitHub</a>
-            <span class="status status-maintained">Maintained</span>
-          </div>
-        </div>
-        <p class="project-desc">Desktop apps that auto-update need to not brick themselves. Open-source Go library that manages crash-safe updates: external supervisor pattern, versioned directories, automatic rollback on failure.</p>
-        <div class="tags">
-          <span class="tag tag-go">Go</span>
-          <span class="tag tag-go">MIT</span>
-        </div>
-      </div>
-
-      <div class="project">
-        <div class="project-head">
-          <span class="project-name">peekm</span>
-          <div class="project-meta">
-            <a href="https://peekm.dev" target="_blank" rel="noopener noreferrer">peekm.dev</a>
-            <span class="status status-maintained">Maintained</span>
-          </div>
-        </div>
-        <p class="project-desc">Markdown viewer with AI session tracking. Single Go binary, installable via npm or Homebrew.</p>
-        <div class="tags">
-          <span class="tag tag-go">Go</span>
-          <span class="tag tag-go">npm</span>
-          <span class="tag tag-go">Homebrew</span>
-        </div>
-      </div>
-
-    </div>
+      <span class="sep">·</span>
+      <a href="https://github.com/razvandimescu" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </p>
+    <p class="writing-foot" style="margin-top: 32px; text-align: center;">
+      Writing: <a href="/writing/starting-a-logbook.html">Starting a logbook</a> (Apr 2026) &middot; archive at <a href="/writing/">/writing/</a> &middot; DNS pieces on <a href="https://numa.rs/blog/" target="_blank" rel="noopener noreferrer">numa.rs/blog</a>.
+    </p>
   </section>
 
-  <section class="section" aria-labelledby="work-heading">
-    <h2 id="work-heading">Client Engagements</h2>
-    <p class="section-intro">Production systems delivered for clients in energy, finance, and e-commerce — from single-developer POCs to multi-year team engagements.</p>
-    <div class="projects">
-
-      <div class="project">
-        <div class="project-head">
-          <span class="project-name">Energy aggregation and grid services</span>
-        </div>
-        <p class="project-desc">Started as a single-developer POC, grew to a team of 8 over 7 years. Built aggregation software for solar farms totalling 5GW, direct dispatch on negative energy prices with real-time notifications, and command &amp; control for gas turbines producing 800MW+. Deployed software and hardware for frequency containment reserves across sites in France and Spain. Owned CI/CD, service deployment, SFTP configuration, and Helm charts.</p>
-        <div class="tags">
-          <span class="tag tag-python">Python</span>
-          <span class="tag tag-go">Go</span>
-          <span class="tag tag-ts">SCADA</span>
-          <span class="tag tag-ts">Helm</span>
-          <span class="tag tag-ts">CI/CD</span>
-        </div>
-      </div>
-
-      <div class="project">
-        <div class="project-head">
-          <span class="project-name">Email classification for Romanian energy distributor</span>
-        </div>
-        <p class="project-desc">A Romanian energy distributor routes thousands of customer and partner emails manually across 212 internal categories. Built an ML pipeline using SVM and TF-IDF that classifies incoming emails and extracts structured rules — trained on 36K historical messages, now progressing toward production deployment.</p>
-        <div class="tags">
-          <span class="tag tag-python">Python</span>
-          <span class="tag tag-ai">NLP</span>
-          <span class="tag tag-python">scikit-learn</span>
-        </div>
-      </div>
-
-      <div class="project">
-        <div class="project-head">
-          <span class="project-name">Returns processing for UK distributor</span>
-        </div>
-        <p class="project-desc">Product returns arrive as unstructured emails — PDFs, photos, inconsistent formats. Built a pipeline that extracts data via OCR, classifies issues with GPT-4o, matches products using vector similarity, and routes by confidence: auto-approve, review, or escalate.</p>
-        <div class="tags">
-          <span class="tag tag-python">Python</span>
-          <span class="tag tag-ai">GPT-4o</span>
-          <span class="tag tag-ai">pgvector</span>
-          <span class="tag tag-python">FastAPI</span>
-        </div>
-      </div>
-
-      <div class="project">
-        <div class="project-head">
-          <span class="project-name">Vehicle finance quote aggregation (UK)</span>
-        </div>
-        <p class="project-desc">UK finance brokers manually check rates across 10+ funders. Built parallel browser and API workers that query all funders and return unified quotes — replacing a 30-minute manual process.</p>
-        <div class="tags">
-          <span class="tag tag-ts">Playwright</span>
-          <span class="tag tag-go">Go</span>
-          <span class="tag tag-ts">NATS</span>
-        </div>
-      </div>
-
+  <!-- ── COLOPHON ─────────────────────────────── -->
+  <footer class="colophon">
+    <div>
+      <span class="colo-label">Location</span>
+      Craiova, Romania · 44.32°N · 23.80°E · Hosted on GitHub Pages.
     </div>
-  </section>
-
-  <section class="section" aria-labelledby="contact-heading">
-    <h2 id="contact-heading" class="sr-only">Contact</h2>
-    <div class="cta">
-      <p>Messy processes, unreliable workflows, documents that don't parse themselves — if that sounds familiar, let's talk.</p>
-      <a class="cta-link" href="https://linkedin.com/in/razvandimescu" target="_blank" rel="noopener noreferrer">Get in touch</a>
+    <div>
+      <span class="colo-avatar" aria-hidden="true">
+        <img src="avatar.jpg" alt="" width="460" height="460" loading="lazy">
+      </span>
+      <span class="colo-label">Byline</span>
+      Razvan Dimescu
     </div>
-  </section>
-
-  <footer>
-    <p>Craiova, Romania</p>
   </footer>
 
 </main>
+
 </body>
 </html>

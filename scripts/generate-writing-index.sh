@@ -1,0 +1,299 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Generate writing/index.html from writing-src/*.md YAML frontmatter.
+# Reads title, description, date; sorts newest first (by ISO date).
+
+OUT="writing/index.html"
+
+extract() {
+  local file="$1" field="$2"
+  sed -n '/^---$/,/^---$/p' "$file" | grep "^${field}:" | sed "s/^${field}: *//"
+}
+
+# Collect posts: "date|slug|title|description" per line
+posts=""
+if ! ls writing-src/*.md >/dev/null 2>&1; then
+  echo "  (no posts in writing-src/ — index will be empty)"
+  posts=""
+else
+  for f in writing-src/*.md; do
+    slug=$(basename "$f" .md)
+    title=$(extract "$f" title)
+    desc=$(extract "$f" description)
+    date=$(extract "$f" date)
+    posts+="${date}|${slug}|${title}|${desc}"$'\n'
+  done
+  posts=$(echo "$posts" | grep -v '^$' | sort -t'|' -k1 -r)
+fi
+
+# Format ISO date (YYYY-MM-DD) to "Month YYYY"
+format_date() {
+  local months=(January February March April May June July August September October November December)
+  local y="${1%%-*}"
+  local m="${1#*-}"; m="${m%%-*}"; m=$((10#$m))
+  echo "${months[$((m-1))]} $y"
+}
+
+# Build items
+items=""
+if [ -n "$posts" ]; then
+  while IFS='|' read -r date slug title desc; do
+    [ -z "$slug" ] && continue
+    display_date=$(format_date "$date")
+    items+="      <li>
+        <a href=\"/writing/${slug}.html\">
+          <time class=\"post-date\" datetime=\"${date}\">${display_date}</time>
+          <div class=\"post-title\">${title}</div>
+          <div class=\"post-desc\">${desc}</div>
+        </a>
+      </li>
+"
+  done <<< "$posts"
+else
+  items="      <li class=\"empty\">No posts yet. Check back soon.</li>
+"
+fi
+
+mkdir -p writing
+
+cat > "$OUT" << 'HTMLEOF_START'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Writing — Razvan Dimescu</title>
+<meta name="description" content="Notes on automation, orchestration, and building at the protocol layer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #0c0b0f;
+    --paper-warm: #141218;
+    --ink: #f2ecd9;
+    --ink-soft: #c4bda9;
+    --ink-muted: #7f7a6b;
+    --rule: #2b2823;
+    --rule-soft: #1c1a17;
+    --amber: #ffa828;
+    --font-serif: 'Fraunces', 'Times New Roman', serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: var(--font-serif);
+    font-variation-settings: "opsz" 18, "SOFT" 30;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    min-height: 100vh;
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 0.92  0 0 0 0 0.75  0 0 0 0.08 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+  }
+
+  a { color: var(--amber); text-decoration: none; border-bottom: 1px solid rgba(255,168,40,0.35); transition: border-color 0.2s; }
+  a:hover { border-bottom-color: var(--amber); }
+  ::selection { background: var(--amber); color: var(--paper); }
+
+  header.masthead {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 32px;
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-muted);
+    position: relative; z-index: 1;
+  }
+  header.masthead a { color: var(--ink-muted); border-bottom: none; }
+  header.masthead a:hover { color: var(--amber); }
+  header.masthead .left { display: flex; align-items: center; gap: 14px; }
+  header.masthead .mark {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px;
+    border: 1px solid var(--ink); color: var(--ink);
+    font-family: var(--font-serif); font-style: italic;
+    font-weight: 500; font-size: 13px;
+    letter-spacing: -0.04em;
+  }
+
+  main.archive {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 80px 24px 48px;
+    position: relative; z-index: 1;
+  }
+
+  .archive-kicker {
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 24px;
+  }
+  .archive-kicker::before { content: '— '; color: var(--ink-muted); margin-right: 4px; }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(48px, 7vw, 96px);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+  h1 em { font-style: italic; font-weight: 500; }
+
+  .archive-lead {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 22px);
+    color: var(--ink-soft);
+    line-height: 1.4;
+    margin-bottom: 64px;
+    max-width: 36em;
+    font-variation-settings: "opsz" 48, "SOFT" 30;
+  }
+
+  .post-list {
+    list-style: none;
+    border-top: 1px solid var(--rule);
+  }
+  .post-list li {
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .post-list li.empty {
+    padding: 32px 0;
+    color: var(--ink-muted);
+    font-style: italic;
+    text-align: center;
+  }
+  .post-list a {
+    display: block;
+    padding: 28px 0;
+    border-bottom: none;
+    color: var(--ink);
+    transition: padding 0.2s;
+  }
+  .post-list a:hover {
+    padding-left: 16px;
+    background: linear-gradient(90deg, rgba(255,168,40,0.04), transparent 50%);
+  }
+  .post-list .post-date {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 8px;
+  }
+  .post-list .post-title {
+    font-family: var(--font-serif);
+    font-size: clamp(22px, 2.6vw, 32px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    font-variation-settings: "opsz" 72, "SOFT" 30;
+    color: var(--ink);
+    margin-bottom: 6px;
+    transition: color 0.2s;
+  }
+  .post-list a:hover .post-title { color: var(--amber); }
+  .post-list .post-desc {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-soft);
+    line-height: 1.45;
+    font-variation-settings: "opsz" 18, "SOFT" 30;
+    max-width: 44em;
+  }
+
+  .archive-footer-note {
+    margin-top: 48px;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-muted);
+    padding-top: 24px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .archive-footer-note a {
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--rule);
+  }
+  .archive-footer-note a:hover { color: var(--amber); border-color: var(--amber); }
+
+  footer.colophon {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 24px 24px 56px;
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    position: relative; z-index: 1;
+  }
+  footer.colophon a { color: var(--ink-muted); border-bottom: none; }
+  footer.colophon a:hover { color: var(--amber); }
+
+  @media (max-width: 680px) {
+    main.archive { padding: 48px 20px 40px; }
+    header.masthead { padding: 14px 20px; font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="left">
+    <a href="/" class="mark">R</a>
+    <a href="/">dimescu.ro</a>
+  </div>
+  <div class="right"><span>Writing</span></div>
+</header>
+
+<main class="archive">
+  <p class="archive-kicker">All posts</p>
+  <h1><em>Writing</em></h1>
+  <p class="archive-lead">
+    Notes on automation, orchestration, durability, and building at the protocol layer. For DNS-specific writing, see <a href="https://numa.rs/blog/">numa.rs/blog</a>.
+  </p>
+
+  <ul class="post-list">
+HTMLEOF_START
+
+# inject items
+printf '%s' "$items" >> "$OUT"
+
+cat >> "$OUT" << 'HTMLEOF_END'
+  </ul>
+
+  <p class="archive-footer-note">
+    More writing on <a href="https://numa.rs/blog/">numa.rs/blog</a>. Back to <a href="/">dimescu.ro</a>.
+  </p>
+</main>
+
+<footer class="colophon">
+  <span>Razvan Dimescu · Craiova, Romania</span>
+  <span><a href="/">← home</a></span>
+</footer>
+
+</body>
+</html>
+HTMLEOF_END
+
+count=$(echo "$posts" | grep -c '^[^[:space:]]' 2>/dev/null || echo 0)
+echo "  writing/index.html generated ($count posts)"
